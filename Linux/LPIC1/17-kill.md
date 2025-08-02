@@ -33,6 +33,12 @@ kill -9 123
 *Doesn’t allow cleanup — use only when necessary.*
 🗡️ *Think of it as the "katana" of kill commands.*
 
+### 📑 Multi Process Kill
+
+```bash
+pidof <ps-name> | xargs kill -9 
+```
+
 ---
 
 ### ⌨️ Interrupt — `SIGINT` (Signal 2)
