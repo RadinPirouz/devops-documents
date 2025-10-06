@@ -1,5 +1,4 @@
-# Nginx Reverse Proxy Configuration — `files.usethelinux.shop`
-
+# Nginx Reverse Proxy Configuration
 ## Overview
 
 This Nginx configuration serves two main purposes:
