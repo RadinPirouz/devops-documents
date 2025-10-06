@@ -15,14 +15,14 @@ The configuration also sets headers to ensure proper client information forwardi
 ```nginx
 server {
     listen 80;
-    server_name files.usethelinux.shop;
+    server_name example.com;
 
     error_log /var/log/nginx/file-error.log warn;
     access_log /var/log/nginx/file-access.log;
 ```
 
 * **listen 80;** — The server listens on HTTP port 80.
-* **server_name files.usethelinux.shop;** — Responds to requests for this domain.
+* **server_name example.com;** — Responds to requests for this domain.
 * **error_log** and **access_log** — Define custom log files for debugging and access tracking.
 
 ---
