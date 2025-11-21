@@ -1,94 +1,71 @@
-# **Kubernetes Persistent Volumes (PV) – Technical Reference Guide**
+# 🌐 Kubernetes: Persistent Volumes (PV) Cheat Sheet
 
-## **1. Overview**
+## 📦 What is a Persistent Volume (PV)?
 
-A **Persistent Volume (PV)** is a storage resource in Kubernetes that allows data to persist beyond the lifecycle of Pods.
-Persistent Volumes can be:
-
-* **Pre-provisioned** by a cluster administrator, or
-* **Dynamically provisioned** using a **StorageClass**.
+A **Persistent Volume** is a piece of storage in a Kubernetes cluster that has been provisioned by an administrator or dynamically provisioned using **StorageClasses**.
 
 ---
 
-## **2. PV Storage Options**
+## 📁 PV Storage Options
 
-### **2.1 HostPath**
+1. **HostPath**
 
-* Mounts a directory or file from the host node’s filesystem into a Pod.
-* Suitable only for **local development** or **single-node clusters** (e.g., Minikube, Kind).
-* **Not recommended** for production environments.
+   * Mounts a file or directory from the host node’s filesystem into your Pod.
 
-### **2.2 NFS**
+2. **Using PV and PVC**
 
-* Uses Network File System (NFS) to allow multiple Pods and nodes to share storage.
-* Recommended for **shared or distributed** setups.
-
-### **2.3 Cloud Volumes**
-
-* **AWS:** `awsElasticBlockStore`
-* **GCP:** `gcePersistentDisk`
-* **Azure:** `azureDisk` or `azureFile`
-* **CSI Drivers:** Preferred for all modern cloud and on-prem environments.
+   * **PV (Persistent Volume):** The actual storage resource.
+   * **PVC (Persistent Volume Claim):** A request for storage by a user.
 
 ---
 
-## **3. Kubernetes Storage Architecture**
+## 🧱 Kubernetes Storage Layers
 
-1. **Persistent Volume (PV):** Represents the actual storage resource, either statically created or dynamically provisioned.
-2. **Persistent Volume Claim (PVC):** A user request for storage of specific size and access modes.
-3. **StorageClass:** Defines dynamic provisioning behavior (provisioner, reclaim policy, parameters).
-
----
-
-## **4. PV Lifecycle Phases**
-
-| **State**     | **Description**                                  |
-| ------------- | ------------------------------------------------ |
-| **Available** | PV is ready to be bound to a claim.              |
-| **Bound**     | PV is bound to a PVC.                            |
-| **Released**  | PVC was deleted; PV is unbound but retains data. |
-| **Failed**    | Automatic cleanup failed.                        |
-
-### **Reclaim Policies**
-
-* **Delete:** Deletes the underlying storage resource.
-* **Retain:** Keeps the data for manual recovery.
-* **Recycle:** Deprecated (was used to scrub the volume).
+1. **Persistent Volume (PV)**
+2. **Persistent Volume Claim (PVC)**
 
 ---
 
-## **5. PV Access Modes**
+## 🔄 PV Lifecycle States
 
-| **Access Mode**           | **Description**                                             |
-| ------------------------- | ----------------------------------------------------------- |
-| `ReadWriteOnce` (RWO)     | Volume can be mounted as read-write by a single node.       |
-| `ReadOnlyMany` (ROX)      | Volume can be mounted read-only by multiple nodes.          |
-| `ReadWriteMany` (RWX)     | Volume can be mounted as read-write by multiple nodes.      |
-| `ReadWriteOncePod` (RWOP) | Volume can be mounted read-write by a single Pod. (≥ v1.22) |
+| State        | Description                                          |
+| ------------ | ---------------------------------------------------- |
+| Provisioning | Kubernetes is preparing the PV.                      |
+| Binding      | The PV is bound to a PVC.                            |
+| Using        | The bound PV is being used by a Pod.                 |
+| Releasing    | PVC is deleted; PV is no longer bound.               |
+| Reclaiming   | PV is reclaimed using one of the following policies: |
+|              |     • `Delete` – Remove the storage                  |
+|              |     • `Recycle` – Basic scrub (deprecated)           |
+|              |     • `Retain` – Manual reclaim                      |
 
 ---
 
-## **6. CLI Commands**
+## 🔒 PV Access Modes
+
+| Mode   | Description                                 |
+| ------ | ------------------------------------------- |
+| `RWO`  | **ReadWriteOnce** – One node can read/write |
+| `ROX`  | **ReadOnlyMany** – Many nodes read-only     |
+| `RWX`  | **ReadWriteMany** – Many nodes read/write   |
+| `RWOP` | **ReadWriteOncePod** – One Pod only         |
+
+---
+
+## 🛠️ Check PVs via CLI
 
 ```bash
-# List all Persistent Volumes
 kubectl get pv
-
-# List all Persistent Volume Claims (across all namespaces)
-kubectl get pvc -A
-
-# Describe a specific PV or PVC
-kubectl describe pv <pv-name>
-kubectl describe pvc <pvc-name> -n <namespace>
-
-# Delete a PV or PVC
-kubectl delete pv <pv-name>
-kubectl delete pvc <pvc-name> -n <namespace>
 ```
+
+```bash
+kubectl get pvc
+```
+
 
 ---
 
-## **7. Example: Deployment with HostPath Volume**
+## 🚀 Example: Deployment using HostPath Volume
 
 ```yaml
 apiVersion: apps/v1
@@ -96,15 +73,19 @@ kind: Deployment
 metadata:
   name: app-1
   namespace: dev
+  labels:
+    label1: test1
+    app.kubernetes.io/label2: test2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app.kubernetes.io/label2: test2
   template:
     metadata:
       labels:
-        app: nginx
+        app.kubernetes.io/label2: test2
+        os: linux
     spec:
       containers:
         - name: nginx
@@ -113,166 +94,88 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: nginx-log
-              mountPath: /var/log/nginx
+              mountPath: /var/log/nginx  
       volumes:
         - name: nginx-log
           hostPath:
             path: /root/nginx/logs
-            type: DirectoryOrCreate
 ```
-
-**Valid `hostPath` types:**
-`DirectoryOrCreate`, `Directory`, `FileOrCreate`, `File`, `Socket`, `CharDevice`, `BlockDevice`
 
 ---
 
-## **8. Example: Static Persistent Volume (PV)**
+## 📂 Example: PersistentVolume with NFS
 
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv001
+  name: pv1
 spec:
-  capacity:
-    storage: 128Mi
-  accessModes:
+  capacity: 
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes: 
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
-  hostPath:
-    path: /mnt/data/pv001
-```
-
----
-
-## **9. Example: Persistent Volume Claim (PVC)**
-
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-2
-  namespace: db
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 64Mi
-  storageClassName: manual
-  volumeName: pv001
-```
-
----
-
-## **10. Example: NFS-Based PV and PVC**
-
-### **Persistent Volume (PV)**
-
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-nfs-2
-spec:
-  capacity:
-    storage: 128Mi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: nginx-files
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: custom-name
   mountOptions:
     - hard
-    - nfsvers=4.2
+    - nfsvers=4.1
   nfs:
-    path: /root/Nginx_Files
-    server: 192.168.6.160
+    path: /nfs/data
+    server: 192.168.1.10
 ```
 
-### **Persistent Volume Claim (PVC)**
 
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-1
-  namespace: db
-spec:
-  volumeName: pv-nfs-2
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 64Mi
-  storageClassName: nginx-files
-```
 
----
-
-## **11. Example: Static StorageClass**
-
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: nginx-files
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Retain
-```
-
----
-
-## **12. Example: Nginx Deployment Using PVC**
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
-  namespace: web-app
+  name: app-1
+  namespace: dev
+  labels:
+    label1: test1
+    app.kubernetes.io/label2: test2
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app_type: nginx-web
+      app.kubernetes.io/label2: test2
   template:
     metadata:
       labels:
-        app_type: nginx-web
+        app.kubernetes.io/label2: test2
+        os: linux
     spec:
       containers:
         - name: nginx
-          image: nginx:latest
+          image: nginx
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: nginx-configs-volume
-              mountPath: /etc/nginx/conf.d/default.conf
-              subPath: reverse_proxy.conf
-            - name: nginx-logs-volume
-              mountPath: /var/log/nginx
-      volumes:
-        - name: nginx-configs-volume
-          configMap:
-            name: nginx-configs
-        - name: nginx-logs-volume
-          persistentVolumeClaim:
-            claimName: nginx-pvc
-```
-
+            - name: nginx-log
+              mountPath: /var/log/nginx  
+          volumes:
+            - name: nginx-log
+              persisentVolumeClaim:
+                claimName: pv1
 ---
 
-## **13. Best Practices and Recommendations**
-
-1. **Always specify `storageClassName`** for predictable PV/PVC binding.
-2. **Use `volumeBindingMode: WaitForFirstConsumer`** to ensure node-aware provisioning.
-3. **Avoid `hostPath`** in multi-node or production clusters; use NFS or CSI drivers instead.
-4. **Monitor events** for troubleshooting binding issues:
-
-   ```bash
-   kubectl describe pvc <pvc-name> -n <namespace>
-   ```
-5. **Implement proper reclaim policies** or automated cleanup mechanisms for storage lifecycle management.
+apiVersion: v1
+kind: persisentVolumeClaim
+metadata:
+    name: pvc1
+    namespace: ns-test
+spec:
+    accessModes: 
+        - ReadWriteMany
+    resources:
+        requests:
+            storage: 1Gi
+        limits:
+            storage: 2Gi        
+    storageClassName: custom-name
+```
 
