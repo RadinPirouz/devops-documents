@@ -1,106 +1,97 @@
 # 🐧 DevOps Documents
 
-A curated collection of scripts, configuration files, and guides for managing and configuring Linux-based systems. This personal repository serves as a comprehensive knowledge base to simplify deployment, automation, monitoring, security, and much more.
-
----
+A curated knowledge base and collection of configuration files, scripts, and best practice guides for DevOps Engineers, System Administrators, and Linux enthusiasts. This repository aims to simplify the deployment, management, and automation of modern infrastructure.
 
 ## 📂 Repository Structure
 
-### ⚙️ Configuration Management & Automation
-- [Ansible](./Configuration%20Management%20&%20Automation/Ansible)
-- [CronJob](./Configuration%20Management%20&%20Automation/CronJob)
+Explore the categories below to find documentation, configuration examples, and scripts.
 
-### 🐳 Containerization & Orchestration
-- [Docker](./Containerization%20&%20Orchestration/Docker)
-- [Kubernetes (In Progress)](./Containerization%20&%20Orchestration/Kubernetes)
+### ☁️ Infrastructure & Orchestration
 
-### 🗄️ Databases
-- [PostgreSQL](./Databases/Postgresql)
+| Category | Tools / Topics | Description |
+| :--- | :--- | :--- |
+| **[Containerization & Orchestration](https://www.google.com/search?q=./Containerization-Orchestration)** | **Docker**, **Kubernetes** | Guides for container deployment, Dockerfiles, and K8s cluster management. |
+| **[Configuration Management](https://www.google.com/search?q=./Configuration%2520Management%2520%2526%2520Automation)** | **Ansible** | Playbooks, roles, and automation scripts for system configuration. |
+| **[System & Kernel](https://www.google.com/search?q=./System%2520%2526%2520Kernel%2520Management)** | **Kernel** | Kernel tuning, parameters, and low-level system management. |
+| **[Linux Administration](https://www.google.com/search?q=./Linux)** | **General Linux** | Essential shell scripts, command-line tips, and system administration guides. |
 
-### ⚡ Caching
-- [Redis](./Caching/redis)
+### 🛡️ Security & Networking
 
-### 💻 Code Management
-- [Git](./Code%20Management/Git)
-
-### 🔀 High Availability
-- [HAProxy](./High%20Availability/Ha-Proxy)
+| Category | Tools / Topics | Description |
+| :--- | :--- | :--- |
+| **[Security & Networking](https://www.google.com/search?q=./Security%2520%2526%2520Networking)** | **Iptables**, **Nmap**, **Nginx**, **FileSharing** | Firewall rules, network scanning, and secure networking configurations. |
+| **[Password Management](https://www.google.com/search?q=./Password%2520Manager)** | **Vaultwarden** | Self-hosted password manager setup and configuration. |
+| **[High Availability](https://www.google.com/search?q=./High%2520Availability)** | **HAProxy** | Load balancing and high-availability configurations. |
 
 ### 📊 Monitoring & Logging
-- [Grafana](./Monitoring%20&%20Logging/Grafana)
-- [LibreNMS](./Monitoring%20&%20Logging/Librenms)
-- [Netdata](./Monitoring%20&%20Logging/Netdata)
-- [Zabbix](./Monitoring%20&%20Logging/Zabbix)
 
-### 🔐 Networking & Security
-- [iptables](./Security%20&%20Networking/Iptables)
-- [Nmap](./Security%20&%20Networking/Nmap)
-- [Nginx](./Security%20&%20Networking/Nginx)
-- [File Sharing](./Security%20&%20Networking/FileSharing)
+| Category | Tools / Topics | Description |
+| :--- | :--- | :--- |
+| **[Monitoring & Logging](https://www.google.com/search?q=./Monitoring%2520%2526%2520Logging)** | **Grafana**, **Zabbix**, **Netdata**, **LibreNMS** | Setup guides for observability stacks, dashboards, and alerting. |
 
-### 📦 Storage
-- [NFS](./Storage/NFS)
+### 💾 Data & Storage
 
-### 🧠 System & Kernel Management
-- [Kernel](./System%20&%20Kernel%20Management/Kernel)
+| Category | Tools / Topics | Description |
+| :--- | :--- | :--- |
+| **[Databases](https://www.google.com/search?q=./Databases)** | **PostgreSQL** | Database installation, tuning, and management guides. |
+| **[Caching](https://www.google.com/search?q=./Caching)** | **Redis** | In-memory data structure store configuration for caching. |
+| **[Storage](https://www.google.com/search?q=./Storage)** | **NFS** | Network File System setup and sharing configurations. |
 
-### 🔁 Web Servers & Reverse Proxies
-- [Nginx (Web)](./Web%20Servers%20&%20Reverse%20Proxies/Nginx)
+### 🌐 Web & Code
 
-### 🤖 Bots & Automation Tools
-- [Telegram Bot](./Bots%20&%20Automation%20Tools/TelegramBot)
+| Category | Tools / Topics | Description |
+| :--- | :--- | :--- |
+| **[Web Servers](https://www.google.com/search?q=./Web-Servers)** | **Nginx** | Web server configurations, reverse proxy setups, and optimization. |
+| **[Code Management](https://www.google.com/search?q=./Code-Management)** | **Git** | Version control best practices and workflow guides. |
 
-### 📝 Miscellaneous
-- [Info](./Info)
-
----
+-----
 
 ## 🚀 Getting Started
 
-```bash
-git clone https://github.com/RadinPirouz/linux-documents.git
-cd linux-documents
-````
+1.  **Clone the repository:**
 
-* Explore each folder for setup guides, scripts, and configuration examples.
-* Follow individual README or documentation files inside each directory before running any scripts.
+    ```bash
+    git clone https://github.com/RadinPirouz/devops-documents.git
+    cd devops-documents
+    ```
 
----
+2.  **Navigate to a topic:**
+    Each directory contains specific `README.md` files or configuration scripts relevant to that tool.
 
-## 📌 Notes
+    ```bash
+    cd "Containerization-Orchestration/Docker"
+    # Read the specific docs or check the scripts
+    ```
 
-* Tested on **Debian/Ubuntu** and **CentOS/RHEL**-based distributions.
-* ⚠️ Always review and test configurations in a staging environment before applying to production.
+3.  **Usage:**
 
----
+      - Review script contents before execution.
+      - Adjust variables in configuration files (e.g., `ansible.cfg`, `nginx.conf`) to match your environment.
+
+-----
+
+## ⚠️ Disclaimer
+
+  * **Review Code:** Always review scripts and configurations before applying them to a production environment.
+  * **Environment:** Most guides are tested on **Debian/Ubuntu** based systems.
+
+-----
 
 ## 🤝 Contributing
 
-Contributions are welcome! 🛠️
+Contributions are welcome\! If you have a useful script, a better config, or a new guide:
 
-1. Fork the repository.
-2. Create a new branch:
-   `git checkout -b feature/YourFeature`
-3. Commit your changes:
-   `git commit -m "Add new config for X"`
-4. Push to the branch:
-   `git push origin feature/YourFeature`
-5. Open a Pull Request 🙌
+1.  Fork the project.
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
-Please ensure your code is tested and well-documented.
-
----
+-----
 
 ## 📬 Contact
 
-Questions or feedback? Reach out:
+  * **Maintainer:** [RadinPirouz](https://github.com/RadinPirouz)
+  * **Telegram:** [@RadinPirouz](https://t.me/RadinPirouz)
 
-* 💬 Telegram: [@RadinPirouz](https://t.me/RadinPirouz)
-* 🐛 GitHub Issues: [Open an Issue](https://github.com/RadinPirouz/linux-documents/issues)
-
----
-
-## ⭐️ Support
-
-If you find this repository useful, please give it a ⭐ and share it with others!
 
