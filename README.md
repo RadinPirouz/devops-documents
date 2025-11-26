@@ -1,56 +1,106 @@
-# Linux Documents
+# 🐧 DevOps Documents
 
-Welcome to the Linux Documents repository! This collection serves as a comprehensive resource for various Linux-related configurations, setups, and management scripts. It is designed to assist system administrators, developers, and enthusiasts in deploying and managing different services and applications on Linux-based systems.
+A curated collection of scripts, configuration files, and guides for managing and configuring Linux-based systems. This personal repository serves as a comprehensive knowledge base to simplify deployment, automation, monitoring, security, and much more.
 
-## Table of Contents
+---
 
-### Configuration Management & Automation
-- [Ansible](https://github.com/RadinPirouz/linux-documents/tree/main/Configuration%20Management%20%26%20Automation/Ansible)
-- [CronJob](https://github.com/RadinPirouz/linux-documents/tree/main/Configuration%20Management%20%26%20Automation/CronJob)
+## 📂 Repository Structure
 
-### Web Development & Frameworks
-- [Django](https://github.com/RadinPirouz/linux-documents/tree/main/Web%20Development%20%26%20Frameworks/Django)
-- [LaravelAPI](https://github.com/RadinPirouz/linux-documents/tree/main/Web%20Development%20%26%20Frameworks/LaravelAPI)
-- [LaravelOnNginx](https://github.com/RadinPirouz/linux-documents/tree/main/Web%20Development%20%26%20Frameworks/LaravelOnNginx)
+### ⚙️ Configuration Management & Automation
+- [Ansible](./Configuration%20Management%20&%20Automation/Ansible)
+- [CronJob](./Configuration%20Management%20&%20Automation/CronJob)
 
-### Containerization & Orchestration
-- [Docker](https://github.com/RadinPirouz/linux-documents/tree/main/Containerization%20%26%20Orchestration/Docker)
-- [Kubernetes](https://github.com/RadinPirouz/linux-documents/tree/main/Containerization%20%26%20Orchestration/Kubernetes)
+### 🐳 Containerization & Orchestration
+- [Docker](./Containerization%20&%20Orchestration/Docker)
+- [Kubernetes (In Progress)](./Containerization%20&%20Orchestration/Kubernetes)
 
-### Monitoring & Logging
-- [Grafana](https://github.com/RadinPirouz/linux-documents/tree/main/Monitoring%20%26%20Logging/Grafana)
-- [Librenms](https://github.com/RadinPirouz/linux-documents/tree/main/Monitoring%20%26%20Logging/Librenms)
-- [Netdata](https://github.com/RadinPirouz/linux-documents/tree/main/Monitoring%20%26%20Logging/Netdata)
-- [Zabbix](https://github.com/RadinPirouz/linux-documents/tree/main/Monitoring%20%26%20Logging/Zabbix)
+### 🗄️ Databases
+- [PostgreSQL](./Databases/Postgresql)
 
-### Networking & Security
-- [Iptables](https://github.com/RadinPirouz/linux-documents/tree/main/Networking%20%26%20Security/Iptables)
-- [Nmap](https://github.com/RadinPirouz/linux-documents/tree/main/Networking%20%26%20Security/Nmap)
-- [Nginx](https://github.com/RadinPirouz/linux-documents/tree/main/Networking%20%26%20Security/Nginx)
-- [FileSharing](https://github.com/RadinPirouz/linux-documents/tree/main/Networking%20%26%20Security/FileSharing)
+### ⚡ Caching
+- [Redis](./Caching/redis)
 
-### Bots & Automation Tools
-- [TelegramBot](https://github.com/RadinPirouz/linux-documents/tree/main/Bots%20%26%20Automation%20Tools/TelegramBot)
+### 💻 Code Management
+- [Git](./Code%20Management/Git)
 
-### System Management
-- [Kernel](https://github.com/RadinPirouz/linux-documents/tree/main/System%20Management/Kernel)
+### 🔀 High Availability
+- [HAProxy](./High%20Availability/Ha-Proxy)
 
-### Miscellaneous
-- [Info](https://github.com/RadinPirouz/linux-documents/tree/main/Miscellaneous/Info)
+### 📊 Monitoring & Logging
+- [Grafana](./Monitoring%20&%20Logging/Grafana)
+- [LibreNMS](./Monitoring%20&%20Logging/Librenms)
+- [Netdata](./Monitoring%20&%20Logging/Netdata)
+- [Zabbix](./Monitoring%20&%20Logging/Zabbix)
 
-## Getting Started
+### 🔐 Networking & Security
+- [iptables](./Security%20&%20Networking/Iptables)
+- [Nmap](./Security%20&%20Networking/Nmap)
+- [Nginx](./Security%20&%20Networking/Nginx)
+- [File Sharing](./Security%20&%20Networking/FileSharing)
 
-To get started, navigate to the corresponding directory and follow the instructions provided in the README or script files. Each directory contains configuration files, setup guides, and examples to help you implement and manage the specific service or tool.
+### 📦 Storage
+- [NFS](./Storage/NFS)
 
-## Contributing
+### 🧠 System & Kernel Management
+- [Kernel](./System%20&%20Kernel%20Management/Kernel)
 
-We welcome contributions! If you have improvements, bug fixes, or additional configurations to share, please fork the repository and submit a pull request. Follow the existing structure and provide clear documentation for any new additions.
+### 🔁 Web Servers & Reverse Proxies
+- [Nginx (Web)](./Web%20Servers%20&%20Reverse%20Proxies/Nginx)
 
-## Contact
+### 🤖 Bots & Automation Tools
+- [Telegram Bot](./Bots%20&%20Automation%20Tools/TelegramBot)
 
-For questions, suggestions, or issues, please open an issue on GitHub or contact the repository owner.
+### 📝 Miscellaneous
+- [Info](./Info)
 
-Happy managing!
+---
 
-[GitHub Repository Link](https://github.com/RadinPirouz/linux-documents)
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/RadinPirouz/linux-documents.git
+cd linux-documents
+````
+
+* Explore each folder for setup guides, scripts, and configuration examples.
+* Follow individual README or documentation files inside each directory before running any scripts.
+
+---
+
+## 📌 Notes
+
+* Tested on **Debian/Ubuntu** and **CentOS/RHEL**-based distributions.
+* ⚠️ Always review and test configurations in a staging environment before applying to production.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! 🛠️
+
+1. Fork the repository.
+2. Create a new branch:
+   `git checkout -b feature/YourFeature`
+3. Commit your changes:
+   `git commit -m "Add new config for X"`
+4. Push to the branch:
+   `git push origin feature/YourFeature`
+5. Open a Pull Request 🙌
+
+Please ensure your code is tested and well-documented.
+
+---
+
+## 📬 Contact
+
+Questions or feedback? Reach out:
+
+* 💬 Telegram: [@RadinPirouz](https://t.me/RadinPirouz)
+* 🐛 GitHub Issues: [Open an Issue](https://github.com/RadinPirouz/linux-documents/issues)
+
+---
+
+## ⭐️ Support
+
+If you find this repository useful, please give it a ⭐ and share it with others!
 

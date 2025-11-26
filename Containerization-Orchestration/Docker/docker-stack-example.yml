@@ -1,0 +1,74 @@
+version: "3.8"
+
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    deploy:
+      # Service mode: use "replicated" for a set number of replicas,
+      # or "global" to run one instance on every node.
+      mode: replicated
+
+      # Number of container replicas to run (only applicable in replicated mode)
+      replicas: 3
+
+      # Rolling update configuration (applies when updating the service)
+      update_config:
+        # Number of containers to update at the same time
+        parallelism: 2
+        # Delay between updating groups of containers (e.g., "10s" for 10 seconds)
+        delay: 10s
+        # Action to take if an update fails: rollback, pause, or continue
+        failure_action: rollback
+        # Time to monitor each updated container before proceeding to the next batch
+        monitor: 10s
+        # Maximum failure ratio (0.0 to 1.0) acceptable during the update
+        max_failure_ratio: 0.3
+
+      # Rollback configuration (applies if a deployment needs to be undone)
+      rollback_config:
+        parallelism: 1
+        delay: 10s
+        # Action to take if rollback fails
+        failure_action: pause
+        monitor: 10s
+        max_failure_ratio: 0.2
+
+      # Restart policy for containers in the service
+      restart_policy:
+        # Restart condition can be "none", "on-failure", or "any"
+        condition: on-failure
+        # Delay between restart attempts
+        delay: 5s
+        # Maximum number of restart attempts before considering the container as failed
+        max_attempts: 3
+        # Time window used to evaluate restart attempts (e.g., "120s")
+        window: 120s
+
+      # Resource constraints and reservations for containers
+      resources:
+        limits:
+          # Maximum number of CPUs the container can use (as a fraction or whole number)
+          cpus: "0.50"
+          # Maximum memory (e.g., "50M" for 50 megabytes)
+          memory: 50M
+        reservations:
+          # Guaranteed minimum CPUs for the container
+          cpus: "0.25"
+          # Guaranteed minimum memory
+          memory: 20M
+
+      # Placement constraints and preferences to control which nodes run the service
+      placement:
+        # Constraints ensure that only nodes meeting certain conditions are eligible.
+        constraints:
+          - node.role == manager
+          - node.labels.region == us-east
+        # Preferences allow you to influence (but not enforce) distribution.
+        preferences:
+          - spread: node.labels.az
+
+      # Custom metadata labels for the service
+      labels:
+        com.example.description: "Sample web service using all deploy parameters"

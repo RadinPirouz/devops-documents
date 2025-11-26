@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: app1
+  namespace: ns-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app1
+    spec:
+      containers:
+        - name: nginx
+          image: nginx

@@ -1,0 +1,25 @@
+job1:
+  stage: hello_stage
+  script: echo "Hi :)"
+
+job2:
+  stage: hello_stage
+  script: echo "Hello :)"
+
+job3:
+  stage: hello_stage
+  script: echo "How Are You :)"
+  needs:
+    - job2
+
+Build_job1:
+  stage: build_stage
+  script: echo "Building Code"
+  needs:
+    - job3
+  tags:
+    - build_runner
+
+stages:
+  - hello_stage
+  - build_stage

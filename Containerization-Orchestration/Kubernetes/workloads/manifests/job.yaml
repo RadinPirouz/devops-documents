@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job1
+  namespace: ns-test
+spec:
+  template:
+    spec:
+      containers:
+        - name: job-container
+          image: debian
+          command:
+            - echo
+            - "hello world"
+      restartPolicy: Never

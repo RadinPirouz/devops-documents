@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob1
+  namespace: ns-test
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: mycronjob
+              image: debian
+              command:
+                - /bin/bash
+                - -c
+                - "echo 'Hello, CronJob!'"
+          restartPolicy: Never
+
