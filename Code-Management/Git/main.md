@@ -106,6 +106,14 @@ show last 3 commit
 git log -3
 ```
 
+```bash
+git log --graph
+```
+
+```bash
+git log --oneline
+```
+
 *You can press `q` to exit the log view.*
 
 ### 3. Viewing Changes
@@ -232,5 +240,25 @@ on merge with have 2 method:
 
 fast forward: if we are on latest on master and create branch and set some change and merge it ( master not changed ) commit on out branch fast come on head master
 
-3way:if we are on latest on master and create branch and set some change and merge it but this time our master got some change if our brnach dont have conflict with master its merge but with new commit 
+Three-way: if we are on latest on master and create branch and set some change and merge it but this time our master got some change if our brnach dont have conflict with master its merge but with new commit 
 
+show remotes (just name)
+```bash
+git remote 
+```
+show remotes with full information
+```bash
+git remote -v 
+```
+
+```bash
+git remote show origin
+```
+get changes from default remote ( just get what file changed not applyed)
+```bash
+git fetch 
+```
+get changes from all remote ( just get what file changed not applyed)
+```bash
+git fetch --all
+```
