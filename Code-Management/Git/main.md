@@ -204,23 +204,23 @@ git revert HEAD
 ```bash
 git revert <commit-id>
 ```
-
+show all branches
 ```bash
 git branch
 ```
-
+show all branches but with datails
 ```bash
 git branch -v
 ```
-
+delete target branch
 ```bash
 git branch -d <branch-name>
 ```
-
+swith on target branch
 ```bash
 git checkout <branch-name>
 ```
-
+create branch and switch on it
 ```bash
 git checkout -b <branch-name>
 ```
