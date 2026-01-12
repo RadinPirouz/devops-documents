@@ -97,6 +97,14 @@ To view the commit history of your repository:
 ```bash
 git log
 ```
+show diffrent on each commit 
+```bash
+git log -p 
+```
+show last 3 commit 
+```bash
+git log -3
+```
 
 *You can press `q` to exit the log view.*
 
@@ -106,6 +114,10 @@ To see changes made to files before staging them:
 
 ```bash
 git diff
+```
+
+```bash
+git diff --staged
 ```
 
 ### 4. Staging Individual Files
@@ -159,3 +171,66 @@ To merge changes from another branch into your current branch:
 ```bash
 git merge <branch-name>
 ```
+
+rename file 
+```bash
+git mv
+```
+
+remove file 
+```bash
+git rm
+```
+
+change default editor
+```bash
+git config --global code.editor "vim"
+```
+
+edit last commit message
+```bash
+git commit --amend
+```
+
+show changes in commit 
+```bash
+git show <commit-id>
+```
+
+```bash
+git revert HEAD
+```
+
+```bash
+git revert <commit-id>
+```
+
+```bash
+git branch
+```
+
+```bash
+git branch -v
+```
+
+```bash
+git branch -d <branch-name>
+```
+
+```bash
+git checkout <branch-name>
+```
+
+```bash
+git checkout -b <branch-name>
+```
+
+```bash
+git merge <target-branch>
+```
+on merge with have 2 method:
+
+fast forward: if we are on latest on master and create branch and set some change and merge it ( master not changed ) commit on out branch fast come on head master
+
+3way:if we are on latest on master and create branch and set some change and merge it but this time our master got some change if our brnach dont have conflict with master its merge but with new commit 
+
