@@ -1,264 +1,215 @@
 # Git Commands Guide
 
-## Getting Started with Git
+## 1. Installation and Setup
 
-### 1. Installing Git
+### Install Git
+Download from [git-scm.com](https://git-scm.com/).
 
-Before you begin, ensure Git is installed on your machine. You can download it from [git-scm.com](https://git-scm.com/).
-
-### 2. Check Git Installation
-
-To verify that Git is installed, run:
-
+### Verify Installation
 ```bash
 git --version
 ```
 
-### 3. Configure Git User Information
-
-Set up your name and email address, which will be used for your commits:
-
+### Configure User Info
+Set your name and email for commits:
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 ```
 
-## Configuring Git to Use a Custom SSH Key
+## 2. SSH Key Configuration
 
-If you need to use a specific SSH key for your Git operations, you can configure Git as follows:
-
+Use a custom SSH key:
 ```bash
 git config --add --local core.sshCommand 'ssh -i <PATH_TO_SSH_KEY>'
 ```
 
-For Clone With Custom SSH Key Use:
+Clone with custom key:
 ```bash
-git -c core.sshCommand="ssh -i <key-path>" clone host:repo 
+git -c core.sshCommand="ssh -i <key-path>" clone host:repo
 ```
 
+## 3. Initialize Repository
 
-*Replace `<PATH_TO_SSH_KEY>` with the actual path to your SSH key file.*
-
-## Creating and Managing a Local Git Repository
-
-### 1. Initialize a Git Repository
-
-Start by creating a new Git repository in your local project directory:
-
+Create a new Git repo:
 ```bash
 git init -b main
 ```
+- `-b main`: Sets default branch name to `main`.
 
-*The `-b main` flag sets the default branch name to "main".*
+## 4. Basic Workflow
 
-### 2. Add Files and Commit Changes
-
-Next, stage all your files and create your initial commit:
-
+### Stage and Commit
+Stage all changes:
 ```bash
 git add -A
+```
+Commit changes:
+```bash
 git commit -m "Initial Commit"
 ```
 
-*The `git add -A` command stages all changes, while the `git commit` command records those changes with a descriptive message.*
-
-### 3. Connect to a Remote Repository
-
-Now, link your local repository to a remote GitHub repository:
-
+### Connect to Remote
+Link local repo to remote:
 ```bash
 git remote add origin <Repo-Link>
 ```
 
-*Replace `<Repo-Link>` with the URL of your GitHub repository.*
-
-### 4. Push Changes to GitHub
-
-Finally, push your initial commit to the remote repository:
-
+### Push to Remote
 ```bash
 git push origin main
 ```
 
-## Common Git Commands for Beginners
+## 5. Repository Status and History
 
-### 1. Check the Status of Your Repository
-
-To see which changes are staged, unstaged, or untracked:
-
+### Check Status
 ```bash
 git status
 ```
+Shows staged, unstaged, and untracked files.
 
-### 2. View Commit History
-
-To view the commit history of your repository:
-
+### View History
 ```bash
 git log
 ```
-show diffrent on each commit 
-```bash
-git log -p 
-```
-show last 3 commit 
-```bash
-git log -3
-```
+- `git log -p`: Shows diffs per commit.
+- `git log -3`: Shows last 3 commits.
+- `git log --graph`: Shows history as a graph.
+- `git log --oneline`: Shows compact log.
 
-```bash
-git log --graph
-```
-
-```bash
-git log --oneline
-```
-
-*You can press `q` to exit the log view.*
-
-### 3. Viewing Changes
-
-To see changes made to files before staging them:
-
+### View Changes
 ```bash
 git diff
 ```
+Shows unstaged changes.
 
 ```bash
 git diff --staged
 ```
+Shows staged changes.
 
-### 4. Staging Individual Files
+## 6. File Operations
 
-If you want to stage specific files instead of all changes:
-
+### Stage Specific Files
 ```bash
 git add <filename>
 ```
 
-*Replace `<filename>` with the name of the file you wish to stage.*
-
-### 5. Undoing Changes
-
-To unstage a file that you added by mistake:
-
+### Unstage Files
 ```bash
 git reset <filename>
 ```
 
-To discard changes in a file and revert it to the last committed state:
-
+### Discard Changes
 ```bash
 git checkout -- <filename>
 ```
+Reverts file to last committed state.
 
-### 6. Cloning a Repository
-
-If you want to create a copy of an existing remote repository:
-
+### Rename File
 ```bash
-git clone <Repo-Link>
+git mv <old-name> <new-name>
 ```
 
-*Replace `<Repo-Link>` with the URL of the repository you want to clone.*
+### Remove File
+```bash
+git rm <filename>
+```
 
-### 7. Creating a New Branch
+## 7. Branch Management
 
-To create a new branch for development:
-
+### Create and Switch to Branch
 ```bash
 git checkout -b <branch-name>
 ```
 
-*Replace `<branch-name>` with your desired branch name.*
+### List Branches
+```bash
+git branch
+```
+List with details:
+```bash
+git branch -v
+```
 
-### 8. Merging Branches
+### Delete Branch
+```bash
+git branch -d <branch-name>
+```
 
-To merge changes from another branch into your current branch:
+### Switch Branch
+```bash
+git checkout <branch-name>
+```
 
+## 8. Merging
+
+### Merge Branch
 ```bash
 git merge <branch-name>
 ```
 
-rename file 
+**Merge Types:**
+- **Fast-forward:** No conflicts; branch is ahead of target.
+- **Three-way:** Conflicts possible; creates new merge commit.
+
+## 9. Remote Operations
+
+### List Remotes
 ```bash
-git mv
+git remote
 ```
 
-remove file 
+### Show Remote Info
 ```bash
-git rm
+git remote -v
+```
+```bash
+git remote show origin
 ```
 
-change default editor
+### Fetch Changes
 ```bash
-git config --global code.editor "vim"
+git fetch
 ```
+Get updates without merging.
 
-edit last commit message
+```bash
+git fetch --all
+```
+Fetch from all remotes.
+
+## 10. Commit Management
+
+### Edit Last Commit Message
 ```bash
 git commit --amend
 ```
 
-show changes in commit 
+### Show Commit Changes
 ```bash
 git show <commit-id>
 ```
 
+### Revert Commit
 ```bash
 git revert HEAD
 ```
+Revert last commit.
 
 ```bash
 git revert <commit-id>
 ```
-show all branches
+Revert specific commit.
+
+## 11. Miscellaneous
+
+### Change Default Editor
 ```bash
-git branch
-```
-show all branches but with datails
-```bash
-git branch -v
-```
-delete target branch
-```bash
-git branch -d <branch-name>
-```
-swith on target branch
-```bash
-git checkout <branch-name>
-```
-create branch and switch on it
-```bash
-git checkout -b <branch-name>
+git config --global core.editor "vim"
 ```
 
+### Clone Repository
 ```bash
-git merge <target-branch>
-```
-on merge with have 2 method:
-
-fast forward: if we are on latest on master and create branch and set some change and merge it ( master not changed ) commit on out branch fast come on head master
-
-Three-way: if we are on latest on master and create branch and set some change and merge it but this time our master got some change if our brnach dont have conflict with master its merge but with new commit 
-
-show remotes (just name)
-```bash
-git remote 
-```
-show remotes with full information
-```bash
-git remote -v 
-```
-
-```bash
-git remote show origin
-```
-get changes from default remote ( just get what file changed not applyed)
-```bash
-git fetch 
-```
-get changes from all remote ( just get what file changed not applyed)
-```bash
-git fetch --all
+git clone <Repo-Link>
 ```
