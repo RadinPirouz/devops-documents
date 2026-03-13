@@ -1,161 +1,523 @@
-# Git Commands Guide
+# Git Commands Guide (DevOps-Oriented)
 
-## Getting Started with Git
+## 1. Installation and Setup
 
-### 1. Installing Git
+### Install Git
 
-Before you begin, ensure Git is installed on your machine. You can download it from [git-scm.com](https://git-scm.com/).
+Download and install Git from:
+[https://git-scm.com/](https://git-scm.com/)
 
-### 2. Check Git Installation
+Linux (Debian/Ubuntu):
 
-To verify that Git is installed, run:
+```bash
+sudo apt update && sudo apt install git -y
+```
+
+RHEL/CentOS:
+
+```bash
+sudo yum install git -y
+```
+
+macOS (Homebrew):
+
+```bash
+brew install git
+```
+
+### Verify Installation
 
 ```bash
 git --version
 ```
 
-### 3. Configure Git User Information
+### Configure User Identity
 
-Set up your name and email address, which will be used for your commits:
+Git uses this information for commits:
 
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 ```
 
-## Configuring Git to Use a Custom SSH Key
-
-If you need to use a specific SSH key for your Git operations, you can configure Git as follows:
+Check configuration:
 
 ```bash
-git config --add --local core.sshCommand 'ssh -i <PATH_TO_SSH_KEY>'
+git config --list
 ```
 
-For Clone With Custom SSH Key Use:
+Configuration scopes:
+
+* `--system`: All users
+* `--global`: Current user
+* `--local`: Repository only
+
+---
+
+## 2. SSH Key Configuration
+
+### Generate SSH Key
+
 ```bash
-git -c core.sshCommand="ssh -i <key-path>" clone host:repo 
+ssh-keygen -t ed25519 -C "your.email@example.com"
 ```
 
+Start SSH agent and add key:
 
-*Replace `<PATH_TO_SSH_KEY>` with the actual path to your SSH key file.*
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
 
-## Creating and Managing a Local Git Repository
+### Use Custom SSH Key (Per Repository)
 
-### 1. Initialize a Git Repository
+```bash
+git config --local core.sshCommand "ssh -i <PATH_TO_SSH_KEY>"
+```
 
-Start by creating a new Git repository in your local project directory:
+Clone with custom SSH key:
+
+```bash
+git -c core.sshCommand="ssh -i <key-path>" clone git@host:repo.git
+```
+
+---
+
+## 3. Initialize Repository
+
+Create a new Git repository:
 
 ```bash
 git init -b main
 ```
 
-*The `-b main` flag sets the default branch name to "main".*
+Existing repository:
 
-### 2. Add Files and Commit Changes
+```bash
+git init
+```
 
-Next, stage all your files and create your initial commit:
+---
+
+## 4. Basic Workflow
+
+### Stage and Commit Changes
+
+Stage all changes:
 
 ```bash
 git add -A
-git commit -m "Initial Commit"
 ```
 
-*The `git add -A` command stages all changes, while the `git commit` command records those changes with a descriptive message.*
-
-### 3. Connect to a Remote Repository
-
-Now, link your local repository to a remote GitHub repository:
+Commit changes:
 
 ```bash
-git remote add origin <Repo-Link>
+git commit -m "Initial commit"
 ```
 
-*Replace `<Repo-Link>` with the URL of your GitHub repository.*
-
-### 4. Push Changes to GitHub
-
-Finally, push your initial commit to the remote repository:
+### Connect Local Repository to Remote
 
 ```bash
-git push origin main
+git remote add origin <REPO_URL>
 ```
 
-## Common Git Commands for Beginners
+Verify:
 
-### 1. Check the Status of Your Repository
+```bash
+git remote -v
+```
 
-To see which changes are staged, unstaged, or untracked:
+### Push to Remote
+
+First push:
+
+```bash
+git push -u origin main
+```
+
+Subsequent pushes:
+
+```bash
+git push
+```
+
+---
+
+## 5. Repository Status and History
+
+### Check Repository Status
 
 ```bash
 git status
 ```
 
-### 2. View Commit History
-
-To view the commit history of your repository:
+### View Commit History
 
 ```bash
 git log
 ```
 
-*You can press `q` to exit the log view.*
+Common options:
 
-### 3. Viewing Changes
+```bash
+git log --oneline
+git log --graph --oneline --all
+git log -p
+git log -3
+```
 
-To see changes made to files before staging them:
+### View File Changes
+
+Unstaged changes:
 
 ```bash
 git diff
 ```
 
-### 4. Staging Individual Files
-
-If you want to stage specific files instead of all changes:
+Staged changes:
 
 ```bash
-git add <filename>
+git diff --staged
 ```
 
-*Replace `<filename>` with the name of the file you wish to stage.*
-
-### 5. Undoing Changes
-
-To unstage a file that you added by mistake:
+Compare branches:
 
 ```bash
-git reset <filename>
+git diff main..dev
 ```
 
-To discard changes in a file and revert it to the last committed state:
+---
+
+## 6. File Operations
+
+### Stage Specific Files
 
 ```bash
-git checkout -- <filename>
+git add <file>
 ```
 
-### 6. Cloning a Repository
-
-If you want to create a copy of an existing remote repository:
+### Unstage Files
 
 ```bash
-git clone <Repo-Link>
+git reset <file>
 ```
 
-*Replace `<Repo-Link>` with the URL of the repository you want to clone.*
+### Discard Local Changes
 
-### 7. Creating a New Branch
+```bash
+git checkout -- <file>
+```
 
-To create a new branch for development:
+Restore using modern command:
+
+```bash
+git restore <file>
+```
+
+### Rename File
+
+```bash
+git mv old-name new-name
+```
+
+### Remove File
+
+```bash
+git rm <file>
+```
+
+Remove but keep locally:
+
+```bash
+git rm --cached <file>
+```
+
+---
+
+## 7. Branch Management
+
+### Create and Switch Branch
 
 ```bash
 git checkout -b <branch-name>
 ```
 
-*Replace `<branch-name>` with your desired branch name.*
+Modern alternative:
 
-### 8. Merging Branches
+```bash
+git switch -c <branch-name>
+```
 
-To merge changes from another branch into your current branch:
+### List Branches
+
+```bash
+git branch
+git branch -a
+git branch -v
+```
+
+### Delete Branch
+
+```bash
+git branch -d <branch-name>
+```
+
+Force delete:
+
+```bash
+git branch -D <branch-name>
+```
+
+### Rename Branch
+
+```bash
+git branch -m old-name new-name
+```
+
+---
+
+## 8. Merging and Rebasing
+
+### Merge Branch
 
 ```bash
 git merge <branch-name>
 ```
+
+Merge types:
+
+* Fast-forward
+* Three-way merge (creates merge commit)
+
+### Rebase (Linear History)
+
+```bash
+git rebase main
+```
+
+Abort rebase:
+
+```bash
+git rebase --abort
+```
+
+Continue rebase:
+
+```bash
+git rebase --continue
+```
+
+---
+
+## 9. Remote Operations
+
+### List Remotes
+
+```bash
+git remote
+git remote -v
+```
+
+### Show Remote Details
+
+```bash
+git remote show origin
+```
+
+### Fetch Changes
+
+```bash
+git fetch
+git fetch --all
+```
+
+### Pull Changes
+
+Fetch + merge:
+
+```bash
+git pull
+```
+
+Rebase instead of merge:
+
+```bash
+git pull --rebase
+```
+
+---
+
+## 10. Commit Management
+
+### Amend Last Commit
+
+```bash
+git commit --amend
+```
+
+### Show Commit Details
+
+```bash
+git show <commit-id>
+```
+
+### Revert Commit (Safe for Shared Branches)
+
+```bash
+git revert <commit-id>
+```
+
+### Reset Commit (Use with Caution)
+
+Soft reset:
+
+```bash
+git reset --soft HEAD~1
+```
+
+Mixed reset:
+
+```bash
+git reset HEAD~1
+```
+
+Hard reset:
+
+```bash
+git reset --hard HEAD~1
+```
+
+---
+
+## 11. Stash (Temporary Changes)
+
+Save work without committing:
+
+```bash
+git stash
+```
+
+List stashes:
+
+```bash
+git stash list
+```
+
+Apply stash:
+
+```bash
+git stash apply
+```
+
+Pop stash:
+
+```bash
+git stash pop
+```
+
+---
+
+## 12. Tags (Releases)
+
+Create tag:
+
+```bash
+git tag v1.0.0
+```
+
+Annotated tag:
+
+```bash
+git tag -a v1.0.0 -m "Release v1.0.0"
+```
+
+Push tags:
+
+```bash
+git push origin --tags
+```
+
+---
+
+## 13. .gitignore
+
+Create `.gitignore`:
+
+```bash
+touch .gitignore
+```
+
+Example:
+
+```
+.env
+node_modules/
+*.log
+```
+
+Apply after commit:
+
+```bash
+git rm -r --cached .
+git add .
+git commit -m "Apply gitignore"
+```
+
+---
+
+## 14. Useful Configuration and Aliases
+
+Change default editor:
+
+```bash
+git config --global core.editor "vim"
+```
+
+Create aliases:
+
+```bash
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.cm commit
+git config --global alias.br branch
+```
+
+---
+
+## 15. Troubleshooting and Recovery
+
+Undo last commit but keep changes:
+
+```bash
+git reset --soft HEAD~1
+```
+
+Recover deleted branch:
+
+```bash
+git reflog
+git checkout -b <branch-name> <commit-id>
+```
+
+Fix detached HEAD:
+
+```bash
+git checkout main
+```
+
+---
+
+## 16. Clone Repository
+
+Clone via SSH:
+
+```bash
+git clone git@github.com:user/repo.git
+```
+
+Clone specific branch:
+
+```bash
+git clone -b <branch> <repo-url>
+```
+
