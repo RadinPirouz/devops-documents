@@ -1,523 +1,468 @@
-# Git Commands Guide (DevOps-Oriented)
+# Git Commands Guide for DevOps Engineers
+
+**Professional Reference Document**  
+*Comprehensive Git workflow for development, CI/CD pipelines, and team collaboration*
+
+---
+
+## Table of Contents
+1. [Installation and Setup](#1-installation-and-setup)
+2. [SSH Key Configuration](#2-ssh-key-configuration)
+3. [Repository Initialization](#3-repository-initialization)
+4. [Basic Workflow](#4-basic-workflow)
+5. [Status and History](#5-status-and-history)
+6. [File Operations](#6-file-operations)
+7. [Branch Management](#7-branch-management)
+8. [Merging and Rebasing](#8-merging-and-rebasing)
+9. [Remote Operations](#9-remote-operations)
+10. [Commit Management](#10-commit-management)
+11. [Removing Commits](#11-removing-commits)
+12. [Stash Operations](#12-stash-operations)
+13. [Tags and Releases](#13-tags-and-releases)
+14. [.gitignore Management](#14-gitignore-management)
+15. [Configuration and Aliases](#15-configuration-and-aliases)
+16. [Troubleshooting and Recovery](#16-troubleshooting-and-recovery)
+17. [Repository Cloning](#17-repository-cloning)
+
+---
 
 ## 1. Installation and Setup
 
-### Install Git
+### **Install Git**
+Download from official source: [git-scm.com](https://git-scm.com/)
 
-Download and install Git from:
-[https://git-scm.com/](https://git-scm.com/)
-
-Linux (Debian/Ubuntu):
-
+**Linux Distributions:**
 ```bash
+# Debian/Ubuntu
 sudo apt update && sudo apt install git -y
+
+# RHEL/CentOS/Fedora
+sudo yum install git -y    # or dnf install git -y
 ```
 
-RHEL/CentOS:
-
-```bash
-sudo yum install git -y
-```
-
-macOS (Homebrew):
-
+**macOS:**
 ```bash
 brew install git
 ```
 
-### Verify Installation
-
+### **Verify Installation**
 ```bash
 git --version
 ```
+*Displays installed Git version*
 
-### Configure User Identity
-
-Git uses this information for commits:
-
+### **Configure User Identity**
+Git requires author information for every commit:
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
+git config --global user.name "Your Full Name"
+git config --global user.email "your.email@company.com"
 ```
 
-Check configuration:
+**Configuration Scopes:**
+| Scope | Command Flag | Applies To | Persistence |
+|-------|--------------|------------|-------------|
+| System | `--system` | All users on machine | System-wide |
+| Global | `--global` | Current user | User account |
+| Local | `--local` | Specific repository | Repository only |
 
+**Verify Configuration:**
 ```bash
 git config --list
 ```
-
-Configuration scopes:
-
-* `--system`: All users
-* `--global`: Current user
-* `--local`: Repository only
 
 ---
 
 ## 2. SSH Key Configuration
 
-### Generate SSH Key
-
+### **Generate SSH Key Pair**
 ```bash
-ssh-keygen -t ed25519 -C "your.email@example.com"
+ssh-keygen -t ed25519 -C "your.email@company.com"
 ```
+- **`-t ed25519`**: Modern, secure key algorithm
+- **`-C`**: Comment for key identification
 
-Start SSH agent and add key:
-
+### **SSH Agent Management**
 ```bash
+# Start SSH agent
 eval "$(ssh-agent -s)"
+
+# Add private key to agent
 ssh-add ~/.ssh/id_ed25519
 ```
 
-### Use Custom SSH Key (Per Repository)
-
+### **Per-Repository SSH Key**
 ```bash
-git config --local core.sshCommand "ssh -i <PATH_TO_SSH_KEY>"
-```
+# Set custom key for specific repo
+git config --local core.sshCommand "ssh -i /path/to/custom_key"
 
-Clone with custom SSH key:
-
-```bash
-git -c core.sshCommand="ssh -i <key-path>" clone git@host:repo.git
+# Clone with specific key (one-time)
+git -c core.sshCommand="ssh -i /path/to/key" clone git@host:repo.git
 ```
 
 ---
 
-## 3. Initialize Repository
+## 3. Repository Initialization
 
-Create a new Git repository:
-
+### **Create New Repository**
 ```bash
+# Initialize with main branch
 git init -b main
-```
 
-Existing repository:
-
-```bash
+# Initialize with default branch
 git init
 ```
+
+**Key Concepts:**
+- **Working Directory**: Files not yet tracked by Git
+- **Staging Area (Index)**: Files prepared for commit
+- **Repository**: Committed history and metadata
 
 ---
 
 ## 4. Basic Workflow
 
-### Stage and Commit Changes
-
-Stage all changes:
-
+### **Stage Changes**
 ```bash
+# Stage all changes (new, modified, deleted)
 git add -A
+
+# Stage specific files
+git add <file1> <file2>
+
+# Stage all modified files (not new files)
+git add .
 ```
 
-Commit changes:
-
+### **Commit Changes**
 ```bash
-git commit -m "Initial commit"
+git commit -m "Descriptive commit message"
 ```
 
-### Connect Local Repository to Remote
-
+### **Connect to Remote**
 ```bash
-git remote add origin <REPO_URL>
+git remote add origin <repository-url>
+git remote -v    # Verify remote configuration
 ```
 
-Verify:
-
+### **Push to Remote**
 ```bash
-git remote -v
-```
-
-### Push to Remote
-
-First push:
-
-```bash
+# First push (sets upstream tracking)
 git push -u origin main
-```
 
-Subsequent pushes:
-
-```bash
+# Subsequent pushes
 git push
 ```
 
 ---
 
-## 5. Repository Status and History
+## 5. Status and History
 
-### Check Repository Status
-
+### **Repository Status**
 ```bash
 git status
 ```
+*Shows working directory and staging area state*
 
-### View Commit History
-
+### **Commit History**
 ```bash
-git log
-```
-
-Common options:
-
-```bash
+# One-line summary
 git log --oneline
+
+# Visual graph of all branches
 git log --graph --oneline --all
-git log -p
-git log -3
+
+# Last N commits with patch
+git log -p -3
+
+# Show specific commit details
+git show <commit-hash>
 ```
 
-### View File Changes
-
-Unstaged changes:
-
+### **Change Visualization**
 ```bash
+# Unstaged changes (working directory)
 git diff
-```
 
-Staged changes:
-
-```bash
+# Staged changes (index vs HEAD)
 git diff --staged
-```
 
-Compare branches:
-
-```bash
-git diff main..dev
+# Branch comparison
+git diff main..develop
 ```
 
 ---
 
 ## 6. File Operations
 
-### Stage Specific Files
-
-```bash
-git add <file>
-```
-
-### Unstage Files
-
-```bash
-git reset <file>
-```
-
-### Discard Local Changes
-
-```bash
-git checkout -- <file>
-```
-
-Restore using modern command:
-
-```bash
-git restore <file>
-```
-
-### Rename File
-
-```bash
-git mv old-name new-name
-```
-
-### Remove File
-
-```bash
-git rm <file>
-```
-
-Remove but keep locally:
-
-```bash
-git rm --cached <file>
-```
+| Operation | Command | Effect |
+|-----------|---------|---------|
+| Stage file | `git add <file>` | Moves file to staging area |
+| Unstage | `git reset <file>` | Removes from staging, keeps changes |
+| Discard changes | `git restore <file>` | Reverts to last committed version |
+| Rename | `git mv old new` | Stages rename operation |
+| Remove (tracked) | `git rm <file>` | Stages file deletion |
+| Untrack | `git rm --cached <file>` | Removes from Git, keeps locally |
 
 ---
 
 ## 7. Branch Management
 
-### Create and Switch Branch
-
+### **Branch Operations**
 ```bash
-git checkout -b <branch-name>
-```
+# Create and switch
+git switch -c feature/new-api
 
-Modern alternative:
+# List branches
+git branch -v          # Local branches with last commit
+git branch -a          # All branches (local + remote)
 
-```bash
-git switch -c <branch-name>
-```
+# Delete branch
+git branch -d feature  # Safe delete (merged)
+git branch -D feature  # Force delete
 
-### List Branches
-
-```bash
-git branch
-git branch -a
-git branch -v
-```
-
-### Delete Branch
-
-```bash
-git branch -d <branch-name>
-```
-
-Force delete:
-
-```bash
-git branch -D <branch-name>
-```
-
-### Rename Branch
-
-```bash
+# Rename branch
 git branch -m old-name new-name
 ```
+
+**Branch States:**
+- **Local Branch**: Exists only in your repository
+- **Remote Branch**: Exists on remote server (`origin/main`)
+- **Tracking Branch**: Local branch linked to remote (`main -> origin/main`)
 
 ---
 
 ## 8. Merging and Rebasing
 
-### Merge Branch
-
+### **Merge (Preserves History)**
 ```bash
-git merge <branch-name>
+git checkout main
+git merge feature/xyz
 ```
 
-Merge types:
+**Merge Types:**
+| Type | Condition | Result |
+|------|-----------|---------|
+| Fast-forward | Target ahead, no divergence | Linear history |
+| Three-way | Both branches have new commits | Merge commit created |
 
-* Fast-forward
-* Three-way merge (creates merge commit)
-
-### Rebase (Linear History)
-
+### **Rebase (Linear History)**
 ```bash
+git checkout feature/xyz
 git rebase main
 ```
 
-Abort rebase:
-
+**Rebase Controls:**
 ```bash
-git rebase --abort
-```
-
-Continue rebase:
-
-```bash
-git rebase --continue
+git rebase --abort     # Cancel rebase
+git rebase --continue  # Resolve conflicts and continue
 ```
 
 ---
 
 ## 9. Remote Operations
 
-### List Remotes
-
+### **Remote Management**
 ```bash
-git remote
-git remote -v
+git remote -v              # List remotes
+git remote show origin     # Detailed remote info
+git fetch --all            # Fetch all remotes
 ```
 
-### Show Remote Details
-
+### **Pull Strategies**
 ```bash
-git remote show origin
-```
-
-### Fetch Changes
-
-```bash
-git fetch
-git fetch --all
-```
-
-### Pull Changes
-
-Fetch + merge:
-
-```bash
-git pull
-```
-
-Rebase instead of merge:
-
-```bash
-git pull --rebase
+git pull                   # Fetch + merge
+git pull --rebase          # Fetch + rebase (cleaner history)
 ```
 
 ---
 
 ## 10. Commit Management
 
-### Amend Last Commit
-
+### **Modify Last Commit**
 ```bash
-git commit --amend
+git commit --amend         # Edit message/files
 ```
 
-### Show Commit Details
-
+### **Safe Undo (Shared Branches)**
 ```bash
-git show <commit-id>
+git revert <commit-hash>   # Creates reversing commit
 ```
 
-### Revert Commit (Safe for Shared Branches)
-
+### **Reset Types**
 ```bash
-git revert <commit-id>
+git reset --soft HEAD~1    # Keeps staging area
+git reset HEAD~1           # Unstages, keeps files
+git reset --hard HEAD~1    # Discards everything
 ```
 
-### Reset Commit (Use with Caution)
+---
 
-Soft reset:
+## 11. Removing Commits
 
+### **Remove Local (Unpushed) Commit**
 ```bash
+# Soft reset (interactive rebase recommended)
 git reset --soft HEAD~1
+
+# Interactive rebase for multiple commits
+git rebase -i HEAD~3
+# Change 'pick' to 'drop' or delete line
 ```
 
-Mixed reset:
+### **Remove Pushed Commit from Remote**
+
+**⚠️ DANGER: Rewrites shared history**
 
 ```bash
-git reset HEAD~1
-```
-
-Hard reset:
-
-```bash
+# 1. Reset locally
 git reset --hard HEAD~1
+
+# 2. Force push (collaborators must coordinate)
+git push --force-with-lease origin main
+
+# 3. Alternative: Safer revert
+git revert HEAD    # Creates undoing commit
+git push
+```
+
+**Team Coordination Required:**
+```
+1. Notify team before force push
+2. Team runs: git fetch && git reset --hard origin/main
+3. Use revert for shared production branches
+```
+
+### **Remove Specific Pushed Commit**
+```bash
+# Interactive rebase
+git rebase -i <commit-before-target>~1
+
+# Or create revert
+git revert <specific-commit-hash>
 ```
 
 ---
 
-## 11. Stash (Temporary Changes)
+## 12. Stash Operations
 
-Save work without committing:
-
+**Temporary Storage:**
 ```bash
-git stash
-```
-
-List stashes:
-
-```bash
+git stash push -m "WIP: API changes"
 git stash list
-```
-
-Apply stash:
-
-```bash
-git stash apply
-```
-
-Pop stash:
-
-```bash
-git stash pop
+git stash apply stash@{0}    # Keep stash
+git stash pop                # Apply and remove
 ```
 
 ---
 
-## 12. Tags (Releases)
+## 13. Tags and Releases
 
-Create tag:
-
+### **Tag Management**
 ```bash
-git tag v1.0.0
-```
+# Lightweight tag
+git tag v1.2.3
 
-Annotated tag:
+# Annotated tag (recommended)
+git tag -a v1.2.3 -m "Release v1.2.3"
 
-```bash
-git tag -a v1.0.0 -m "Release v1.0.0"
-```
-
-Push tags:
-
-```bash
+# Push tags
 git push origin --tags
 ```
 
 ---
 
-## 13. .gitignore
+## 14. .gitignore Management
 
-Create `.gitignore`:
-
+**Create/Update:**
 ```bash
 touch .gitignore
 ```
 
-Example:
-
+**Common Patterns:**
 ```
-.env
+# Dependencies
 node_modules/
+vendor/
+
+# Logs
 *.log
+logs/
+
+# Environment
+.env
+*.env.local
+
+# OS
+.DS_Store
+Thumbs.db
 ```
 
-Apply after commit:
-
+**Apply Existing .gitignore:**
 ```bash
 git rm -r --cached .
-git add .
-git commit -m "Apply gitignore"
+git add . && git commit -m "Apply .gitignore"
 ```
 
 ---
 
-## 14. Useful Configuration and Aliases
+## 15. Configuration and Aliases
 
-Change default editor:
-
+### **Editor and Pager**
 ```bash
-git config --global core.editor "vim"
+git config --global core.editor "code --wait"
 ```
 
-Create aliases:
-
+### **Productivity Aliases**
 ```bash
-git config --global alias.st status
-git config --global alias.co checkout
-git config --global alias.cm commit
-git config --global alias.br branch
+git config --global alias.st "status"
+git config --global alias.co "checkout"
+git config --global alias.br "branch -v"
+git config --global alias.cm "!f() { git add -A && git commit -m \"$@\"; }; f"
 ```
 
 ---
 
-## 15. Troubleshooting and Recovery
+## 16. Troubleshooting and Recovery
 
-Undo last commit but keep changes:
-
+### **Common Recovery**
 ```bash
-git reset --soft HEAD~1
-```
-
-Recover deleted branch:
-
-```bash
+# View all history (including resets)
 git reflog
-git checkout -b <branch-name> <commit-id>
-```
 
-Fix detached HEAD:
+# Recover deleted branch
+git checkout -b recovery-branch <commit-hash>
 
-```bash
+# Fix detached HEAD
 git checkout main
 ```
 
 ---
 
-## 16. Clone Repository
-
-Clone via SSH:
+## 17. Repository Cloning
 
 ```bash
-git clone git@github.com:user/repo.git
+# Standard clone
+git clone <url>
+
+# Specific branch
+git clone -b develop <url>
+
+# Shallow clone (history limited)
+git clone --depth 1 <url>
 ```
 
-Clone specific branch:
+---
 
-```bash
-git clone -b <branch> <repo-url>
-```
+## Key Git Concepts Explained
 
+| Concept | Definition | Importance |
+|---------|------------|-----------|
+| **HEAD** | Current commit/branch pointer | Always points to active commit |
+| **Index/Staging** | Intermediate area between working dir and repo | Prepares exact commit content |
+| **Fast-forward** | Linear merge without merge commit | Clean history |
+| **Detached HEAD** | HEAD points directly to commit | Use for inspection, create branch to save work |
+| **Reflog** | Local history of HEAD movements | Recovery lifeline |
+| **Force Push** | Overwrites remote history | Use only with team coordination |
+
+**Document Version: 2.0**  
+*Optimized for DevOps workflows, CI/CD integration, and team collaboration*
