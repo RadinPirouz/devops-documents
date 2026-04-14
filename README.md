@@ -1,57 +1,111 @@
-# 🐧 DevOps Documents
+# 🐧 DevOps Knowledge Base
 
-A curated collection of scripts, configuration files, and guides for managing and configuring Linux-based systems. This personal repository serves as a comprehensive knowledge base to simplify deployment, automation, monitoring, security, and much more.
+> 🚀 *Your centralized hub for Linux, DevOps, and Infrastructure mastery*
+
+A structured and ever-growing collection of **scripts, configurations, and hands-on guides** designed to simplify:
+
+* ⚙️ Automation
+* 🐳 Containerization
+* 📊 Monitoring
+* 🔐 Security
+* ☁️ Cloud & Infrastructure
 
 ---
 
-## 📂 Repository Structure
+## 🧭 Quick Navigation
 
-### ⚙️ Configuration Management & Automation
-- [Ansible](./Configuration%20Management%20&%20Automation/Ansible)
-- [CronJob](./Configuration%20Management%20&%20Automation/CronJob)
+### ⚙️ Configuration & Automation
 
-### 🐳 Containerization & Orchestration
-- [Docker](./Containerization%20&%20Orchestration/Docker)
-- [Kubernetes (In Progress)](./Containerization%20&%20Orchestration/Kubernetes)
+* 🔹 Ansible
+* 🔹 CronJobs
+
+### 🐳 Containers & Orchestration
+
+* 🔹 Docker
+* 🔹 Kubernetes *(Work in Progress)*
+* 🔹 Dozzle
+
+### ☁️ Cloud
+
+* 🔹 AWS
 
 ### 🗄️ Databases
-- [PostgreSQL](./Databases/Postgresql)
+
+* 🔹 PostgreSQL
+* 🔹 MariaDB
 
 ### ⚡ Caching
-- [Redis](./Caching/redis)
+
+* 🔹 Redis
 
 ### 💻 Code Management
-- [Git](./Code%20Management/Git)
+
+* 🔹 Git
+* 🔹 GitLab (CI/CD, Cache, Baremetal Setup)
 
 ### 🔀 High Availability
-- [HAProxy](./High%20Availability/Ha-Proxy)
+
+* 🔹 HAProxy
 
 ### 📊 Monitoring & Logging
-- [Grafana](./Monitoring%20&%20Logging/Grafana)
-- [LibreNMS](./Monitoring%20&%20Logging/Librenms)
-- [Netdata](./Monitoring%20&%20Logging/Netdata)
-- [Zabbix](./Monitoring%20&%20Logging/Zabbix)
 
-### 🔐 Networking & Security
-- [iptables](./Security%20&%20Networking/Iptables)
-- [Nmap](./Security%20&%20Networking/Nmap)
-- [Nginx](./Security%20&%20Networking/Nginx)
-- [File Sharing](./Security%20&%20Networking/FileSharing)
+* 🔹 Grafana
+* 🔹 Zabbix
+* 🔹 Netdata
+* 🔹 LibreNMS
+* 🔹 ELK Stack
 
-### 📦 Storage
-- [NFS](./Storage/NFS)
+### 🔐 Security & Networking
 
-### 🧠 System & Kernel Management
-- [Kernel](./System%20&%20Kernel%20Management/Kernel)
+* 🔹 iptables
+* 🔹 Nmap
+* 🔹 tcpdump
+* 🔹 hping3
+* 🔹 File Sharing (SMB)
+
+### 📦 Storage & Object Systems
+
+* 🔹 NFS
+* 🔹 MinIO
+* 🔹 S5CMD
+
+### 🧠 Linux & System Administration
+
+* 🔹 Bash Scripting
+* 🔹 System Administration
+* 🔹 File Synchronization (rsync)
+* 🔹 Terminal Multiplexers (screen)
 
 ### 🔁 Web Servers & Reverse Proxies
-- [Nginx (Web)](./Web%20Servers%20&%20Reverse%20Proxies/Nginx)
 
-### 🤖 Bots & Automation Tools
-- [Telegram Bot](./Bots%20&%20Automation%20Tools/TelegramBot)
+* 🔹 Nginx
+* 🔹 Certbot
+* 🔹 Nextcloud
 
-### 📝 Miscellaneous
-- [Info](./Info)
+### 🔑 Password Management
+
+* 🔹 Vaultwarden
+
+### 🖥️ Virtualization & Dev Environments
+
+* 🔹 Vagrant
+
+### 🤖 Automation & Bots
+
+* 🔹 Telegram Bot
+
+---
+
+## 🗂️ Documentation Structure
+
+This repository is organized into **topic-based directories**, each containing:
+
+* 📘 Step-by-step guides
+* ⚡ Real-world configurations
+* 🧪 Practical examples
+* 🧾 Ready-to-use scripts
+
+> 💡 Each section is self-contained—start anywhere based on your needs.
 
 ---
 
@@ -60,47 +114,73 @@ A curated collection of scripts, configuration files, and guides for managing an
 ```bash
 git clone https://github.com/RadinPirouz/linux-documents.git
 cd linux-documents
-````
+```
 
-* Explore each folder for setup guides, scripts, and configuration examples.
-* Follow individual README or documentation files inside each directory before running any scripts.
+📌 Then:
+
+1. Navigate to the relevant category
+2. Open the `.md` documentation files
+3. Follow instructions step-by-step
 
 ---
 
-## 📌 Notes
+## 🧪 Philosophy
 
-* Tested on **Debian/Ubuntu** and **CentOS/RHEL**-based distributions.
-* ⚠️ Always review and test configurations in a staging environment before applying to production.
+This knowledge base is built on:
+
+* ✅ Practical, real-world usage
+* ✅ Minimal theory, maximum application
+* ✅ Copy-paste friendly configs
+* ✅ Modular learning approach
+
+---
+
+## ⚠️ Important Notes
+
+* 🐧 Tested on:
+
+  * Debian / Ubuntu
+  * CentOS / RHEL
+
+* 🚨 Always:
+
+  * Review configs before running
+  * Test in staging environments
+  * Understand before deploying to production
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! 🛠️
+Want to improve this knowledge base? You're welcome!
 
-1. Fork the repository.
-2. Create a new branch:
-   `git checkout -b feature/YourFeature`
-3. Commit your changes:
-   `git commit -m "Add new config for X"`
-4. Push to the branch:
-   `git push origin feature/YourFeature`
-5. Open a Pull Request 🙌
+```bash
+# 1. Fork the repo
+# 2. Create your feature branch
+git checkout -b feature/your-feature
 
-Please ensure your code is tested and well-documented.
+# 3. Commit changes
+git commit -m "Add: your feature"
 
----
+# 4. Push to GitHub
+git push origin feature/your-feature
+```
 
-## 📬 Contact
-
-Questions or feedback? Reach out:
-
-* 💬 Telegram: [@RadinPirouz](https://t.me/RadinPirouz)
-* 🐛 GitHub Issues: [Open an Issue](https://github.com/RadinPirouz/linux-documents/issues)
+Then open a Pull Request 🙌
 
 ---
 
-## ⭐️ Support
+## 📬 Contact & Support
 
-If you find this repository useful, please give it a ⭐ and share it with others!
+* 💬 Telegram: [https://t.me/RadinPirouz](https://t.me/RadinPirouz)
+* 🐛 Issues: [https://github.com/RadinPirouz/linux-documents/issues](https://github.com/RadinPirouz/linux-documents/issues)
 
+---
+
+## ⭐ Support the Project
+
+If this helped you:
+
+* ⭐ Star the repository
+* 🔁 Share it with others
+* 🧠 Use it, improve it, contribute back
