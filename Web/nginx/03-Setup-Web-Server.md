@@ -6,7 +6,7 @@ This guide covers the steps to configure Nginx as a basic web server to serve st
 
 ## Prerequisites
 
-- A server with **Nginx installed**. If you haven’t installed Nginx yet, follow the installation instructions in the [Nginx Installation Guide](2-Installtion.md) (or use the provided installation commands).
+- A server with **Nginx installed**. If you haven’t installed Nginx yet, follow the installation instructions in the [Nginx Installation Guide](02-Installtion.md) (or use the provided installation commands).
 - **Root or sudo privileges** to edit configuration files and restart Nginx services.
 
 ---
