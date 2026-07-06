@@ -1,67 +1,93 @@
-# 📈 Horizontal Pod Autoscaler (HPA)
+# Horizontal Pod Autoscaler (HPA)
 
-The Horizontal Pod Autoscaler automatically scales the number of pods in a deployment based on observed CPU utilization (or other select metrics).
+The Horizontal Pod Autoscaler automatically adjusts the replica count of a Deployment (or StatefulSet) based on observed metrics — typically CPU or memory utilization.
+
+**Requirements:**
+
+- Metrics Server must be installed in the cluster.
+- Containers must define `resources.requests` (HPA needs a baseline to calculate utilization).
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
 
 ---
 
-## ⚙️ Basic Commands
+## Commands
 
-### 🚀 Create an HPA
-Create an HPA for a deployment, scaling based on CPU usage:
+### Create an HPA
 
 ```bash
-kubectl -n <namespace> autoscale deployment <deployment-name> --cpu-percent=20 --min=4 --max=10
-````
+kubectl autoscale deployment <deployment-name> \
+  --cpu-percent=50 \
+  --min=2 \
+  --max=10 \
+  -n <namespace>
+```
 
-### 📊 View Existing HPAs
-
-List all HPAs in a specific namespace:
+### Inspect and manage
 
 ```bash
 kubectl get hpa -n <namespace>
-```
-
-### ❌ Delete an HPA
-
-Remove a Horizontal Pod Autoscaler:
-
-```bash
-kubectl delete hpa -n <namespace> <hpa-name>
-```
-
-### 🛠️ Edit an HPA
-
-Manually edit an existing HPA configuration:
-
-```bash
-kubectl edit hpa -n <namespace> <hpa-name>
+kubectl describe hpa <hpa-name> -n <namespace>
+kubectl edit hpa <hpa-name> -n <namespace>
+kubectl delete hpa <hpa-name> -n <namespace>
 ```
 
 ---
 
-## 🧾 Example HPA Manifest
-
-You can define an HPA using a YAML file for more control:
+## Example manifest
 
 ```yaml
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: hpa-test
+  name: hpa-nginx
   namespace: dev
 spec:
-  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 2
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 50
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
 ```
 
-> ℹ️ **Note:** The above manifest uses API version `autoscaling/v2` for enhanced metric support.
+Apply:
+
+```bash
+kubectl apply -f hpa.yaml
+```
 
 ---
 
+## How it works
+
+1. Metrics Server collects Pod CPU/memory usage.
+2. HPA controller compares usage against the target (e.g. 50% of requested CPU).
+3. If above target, HPA increases replicas (up to `maxReplicas`).
+4. If below target, HPA decreases replicas (down to `minReplicas`).
+
+Scale-down has a cooldown period to avoid flapping.
+
+---
+
+## Troubleshooting
+
+```bash
+kubectl describe hpa <name> -n <namespace>   # check Conditions and Events
+kubectl top pods -n <namespace>              # current usage
+```
+
+| Issue | Fix |
+| --- | --- |
+| `unknown` metrics | Install or fix Metrics Server |
+| HPA never scales | Pods missing `resources.requests` |
+| Scales too aggressively | Lower target utilization or adjust cooldown |

@@ -12,16 +12,24 @@ Docker, Kubernetes, and container tooling.
 | Kubernetes | Cluster setup, workloads, storage, commands | [kubernetes/](./kubernetes/) |
 | Dozzle | Real-time container log viewer | [tools/dozzle/](./tools/dozzle/) |
 
-## Kubernetes sub-sections
+## Kubernetes
+
+Full index and learning path: [kubernetes/README.md](./kubernetes/README.md)
+
+```
+kubernetes/
+├── setup/        Overview, installation, kubectl basics, external etcd
+├── workloads/    Pods through Ingress (+ manifests/)
+├── storage/      PV/PVC, emptyDir, Longhorn
+└── operations/   kubectl, debugging, nodes, labels, crictl
+```
 
 | Section | Path |
 | --- | --- |
-| Getting started | [kubernetes/1-Information.md](./kubernetes/1-Information.md) → `3-BasicSetup.md` |
-| Workloads (Pod → Ingress) | [kubernetes/workloads/](./kubernetes/workloads/) |
-| Storage (PV, PVC, Longhorn) | [kubernetes/storage/](./kubernetes/storage/) |
-| kubectl commands | [kubernetes/commands/](./kubernetes/commands/) |
-| containerd (ctr) | [kubernetes/crtctl/](./kubernetes/crtctl/) |
-| External etcd | [kubernetes/etcd-external.md](./kubernetes/etcd-external.md) |
+| Setup | [kubernetes/setup/](./kubernetes/setup/) |
+| Workloads | [kubernetes/workloads/](./kubernetes/workloads/) |
+| Storage | [kubernetes/storage/](./kubernetes/storage/) |
+| Operations | [kubernetes/operations/](./kubernetes/operations/) |
 
 ## Docker learning path
 

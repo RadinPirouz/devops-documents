@@ -9,7 +9,7 @@ A **CronJob** in Kubernetes allows you to run jobs on a recurring schedule, simi
 ### 📄 List CronJobs in a Namespace
 ```bash
 kubectl get cronjobs.batch -n <namespace>
-````
+```
 
 ### ❌ Delete a CronJob
 
@@ -45,7 +45,6 @@ spec:
           restartPolicy: Never
 ```
 
-> 🛠 **Fix:** Changed `JobTemplate` to `jobTemplate` (YAML keys are case-sensitive).
-> 🕐 The `schedule` field follows standard cron format: `minute hour day-of-month month day-of-week`.
-> 🧠 **Tip:** Always test cron timing carefully to avoid unintentional frequent runs.
+> The `schedule` field uses standard cron syntax: `minute hour day-of-month month day-of-week`.
+> Test schedules carefully — `* * * * *` runs every minute.
 

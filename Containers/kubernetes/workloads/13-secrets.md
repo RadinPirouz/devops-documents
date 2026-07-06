@@ -74,5 +74,5 @@ This example sets the MariaDB root password from the `db-pass` Secret.
 
 ---
 
-✅ **Pro Tip**: Always base64-encode values when writing Secrets directly in YAML. Kubernetes expects the `data` field in base64, not plaintext.
+✅ **Tip:** Use `stringData` for plaintext values in YAML (Kubernetes encodes them automatically), or `data` with base64-encoded values. Never commit real secrets to version control.
 

@@ -36,5 +36,5 @@ spec:
       containers:
         - name: nginx
           image: nginx:1.27
-````
+```
 

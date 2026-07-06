@@ -1,5 +1,7 @@
 # Kubernetes (K8s) – Technical Documentation
 
+[← Kubernetes index](../README.md)
+
 ## 1. Overview
 
 **Kubernetes (K8s)** is an open-source container orchestration platform that automates the deployment, scaling, networking, and lifecycle management of containerized applications. It provides declarative configuration and self-healing capabilities to maintain the desired state of workloads.
@@ -345,13 +347,9 @@ Components:
 
 ## 19. Services
 
-### Service
+See the dedicated guide: [workloads/09-services.md](../workloads/09-services.md).
 
-* Provides stable networking and load balancing
-* Uses label selectors to target Pods
-
-### Headless Service
-
-* No virtual IP
-* Direct Pod DNS resolution
-* Commonly used with StatefulSets (e.g., databases)
+* **ClusterIP** — internal cluster access (default)
+* **NodePort** — exposes a port on every node
+* **LoadBalancer** — cloud-provider external IP
+* **Headless** (`clusterIP: None`) — direct Pod DNS; used with StatefulSets

@@ -11,7 +11,7 @@ Use Jobs for **batch processing**, **one-off tasks**, or **short-lived workloads
 ### 📄 List Jobs in a Namespace
 ```bash
 kubectl get jobs.batch -n <namespace>
-````
+```
 
 ### ❌ Delete a Job
 
@@ -37,9 +37,7 @@ spec:
       containers:
         - name: job1
           image: alpine
-          command:
-            - echo 
-            - "hello world"
+          command: ["/bin/sh", "-c", "echo hello world"]
       restartPolicy: Never
 ```
 

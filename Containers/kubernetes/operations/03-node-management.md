@@ -1,6 +1,6 @@
-# 🌐 Node Management with Kubernetes
+# Node Management
 
-Efficient management of Kubernetes nodes ensures cluster stability and workload flexibility. Below are key commands for listing and maintaining nodes.
+Commands for listing nodes and performing maintenance (cordon, drain, uncordon).
 
 ---
 
@@ -9,7 +9,7 @@ Efficient management of Kubernetes nodes ensures cluster stability and workload 
 ### 🔹 Show All Nodes
 ```bash
 kubectl get nodes
-````
+```
 
 ### 🔹 Show Nodes with Labels
 

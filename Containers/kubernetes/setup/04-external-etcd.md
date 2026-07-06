@@ -34,15 +34,15 @@ mkdir -p /var/lib/etcd
 
 ## ⚙️ Step 2: Configure etcd Systemd Services
 
-Create a systemd service config at:
+Create a systemd unit at `/etc/systemd/system/etcd.service`:
 
-```bash
-/etc/systemd/system/etcd.conf
-```
-
-### 🔹 Server 1 (`192.168.6.170`)
+### Server 1 (`192.168.6.170`)
 
 ```ini
+[Unit]
+Description=etcd
+After=network.target
+
 [Service]
 ExecStart=/usr/local/bin/etcd \
   --name etcd-1 \
@@ -63,9 +63,13 @@ StandardError=journal
 WantedBy=multi-user.target
 ```
 
-### 🔹 Server 2 (`192.168.6.171`)
+### Server 2 (`192.168.6.171`)
 
 ```ini
+[Unit]
+Description=etcd
+After=network.target
+
 [Service]
 ExecStart=/usr/local/bin/etcd \
   --name etcd-2 \
@@ -86,9 +90,13 @@ StandardError=journal
 WantedBy=multi-user.target
 ```
 
-### 🔹 Server 3 (`192.168.6.172`)
+### Server 3 (`192.168.6.172`)
 
 ```ini
+[Unit]
+Description=etcd
+After=network.target
+
 [Service]
 ExecStart=/usr/local/bin/etcd \
   --name etcd-3 \
@@ -113,11 +121,12 @@ WantedBy=multi-user.target
 
 ## ▶️ Step 3: Start etcd Service
 
-Enable and start the etcd service on **each server**:
+Enable and start etcd on **each server**:
 
 ```bash
-systemctl start etcd
-systemctl enable etcd
+sudo systemctl daemon-reload
+sudo systemctl enable --now etcd
+sudo systemctl status etcd
 ```
 
 ---

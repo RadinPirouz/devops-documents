@@ -1,6 +1,8 @@
-## LimitRange in Kubernetes
+# LimitRange
 
-### Overview
+[← Kubernetes index](../README.md#workloads)
+
+## Overview
 
 A **LimitRange** in Kubernetes is a namespace-level policy object that defines constraints on the compute resources that individual **Pods** and **Containers** can request and use. It helps ensure that workloads run efficiently and fairly within a shared cluster.
 
