@@ -88,6 +88,7 @@ Sections follow a typical workflow: **foundation → networking → platform →
 | HAProxy | [Web/haproxy/](./Web/haproxy/) |
 | Docker | [Containers/docker/](./Containers/docker/) |
 | Kubernetes workloads | [Containers/kubernetes/workloads/](./Containers/kubernetes/workloads/) |
+| Kubernetes setup | [Containers/kubernetes/setup/](./Containers/kubernetes/setup/) |
 | Ansible | [Automation/ansible/](./Automation/ansible/) |
 | MySQL / MariaDB / PostgreSQL | [Databases/](./Databases/) |
 | Redis | [Databases/redis/](./Databases/redis/) |
