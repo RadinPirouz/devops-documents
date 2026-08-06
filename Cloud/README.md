@@ -8,5 +8,5 @@ Cloud platforms and local virtualization for development and testing.
 
 | Topic | Description | Path |
 | --- | --- | --- |
-| AWS | AWS overview and fundamentals | [aws/](./aws/) |
+| AWS | Full fundamentals guide (infra, IAM, EC2, networking, DBs, …) | [aws/01-Information.md](./aws/01-Information.md) |
 | Vagrant | VM provisioning, networking, Vagrantfile | [vagrant/](./vagrant/) |
