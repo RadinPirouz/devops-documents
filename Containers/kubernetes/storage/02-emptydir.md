@@ -1,11 +1,12 @@
-# emptyDir Volumes
+# emptyDir volumes
 
-Ephemeral storage that lives as long as the Pod exists. Data is deleted when the Pod is removed.
+Ephemeral storage that lives as long as the Pod. Data is deleted when the Pod is removed.
+
+[← PV / PVC](./01-pv-pvc.md) · [Kubernetes index](../README.md) · [Longhorn →](./03-longhorn.md)
 
 ---
 
 ![emptyDir shared ephemeral volume inside a Pod](../images/emptydir.png)
-
 
 ## How volumes work in Pods
 

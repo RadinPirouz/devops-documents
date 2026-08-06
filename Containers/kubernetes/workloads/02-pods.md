@@ -1,141 +1,106 @@
-# 🌐 Kubernetes Pod Management Guide
+# Pods
 
-A concise guide for managing Kubernetes Pods using `kubectl` and YAML manifests.
+The smallest deployable unit in Kubernetes. A Pod runs one or more containers that share network namespace and (optional) volumes.
+
+Prefer a **Deployment** (or other controller) for real workloads. Create bare Pods mainly for debugging and learning.
+
+[← Namespaces](./01-namespaces.md) · [Kubernetes index](../README.md) · [ReplicaSets →](./03-replicasets.md)
 
 ---
 
 ![Pods run containers on cluster nodes](../images/module-pods.png)
 
+## Quick picture
 
-## 📋 Listing Pods
+```
+Node
+└── Pod (IP)
+    ├── container A
+    ├── container B (sidecar)
+    └── volumes (emptyDir, PVC, …)
+```
 
-### 🔹 Default Namespace
+Containers in the same Pod share `localhost` and can use shared volumes. Each Pod gets its own cluster IP.
 
-List all Pods in the **default** namespace:
+---
+
+## Pod phases
+
+| Phase | Meaning |
+| --- | --- |
+| `Pending` | Accepted, not running yet (scheduling, image pull, PVC) |
+| `Running` | Bound to a node; at least one container is running |
+| `Succeeded` | All containers exited 0 (Jobs) |
+| `Failed` | All containers ended; at least one failed |
+| `Unknown` | Node communication problem |
+
+---
+
+## Commands
 
 ```bash
+# List
 kubectl get pods
-```
-
-### 🔹 Wide Output (More Info)
-
-List Pods with extended details (e.g., IP, node, etc.):
-
-```bash
 kubectl get pods -o wide
+kubectl get pods -n <namespace>
+
+# Run (quick test only)
+kubectl run <name> --image=<image>
+kubectl run <name> --image=<image> -n <namespace>
+
+# Inspect
+kubectl describe pod <name> -n <namespace>
+kubectl logs -f <name> -n <namespace>
+kubectl logs -f <name> -c <container> -n <namespace>
+
+# Exec
+kubectl exec -it <name> -n <namespace> -- /bin/sh
+
+# Delete
+kubectl delete pod <name> -n <namespace>
+kubectl delete pod <name> -n <namespace> --force --grace-period=0
 ```
 
-### 🔹 Specific Namespace
-
-List Pods in a specific namespace:
-
-```bash
-kubectl get pods -o wide -n <namespace-name>
-```
+> Most Pod fields are immutable after creation. Prefer deleting/recreating, or change the owning Deployment/ReplicaSet. `kubectl edit pod` only works for a few mutable fields.
 
 ---
 
-## 🚀 Running a Pod
+## Example manifest
 
-> **Note:** `kubectl run` is ideal for quick tests or running **single** Pods. For production workloads, use **YAML manifests** or **Deployments**.
-
-### 🔹 Run a Pod in Default Namespace
-
-```bash
-kubectl run <pod-name> --image=<image-name>
-```
-
-### 🔹 Run a Pod in a Specific Namespace
-
-```bash
-kubectl run <pod-name> --image=<image-name> -n <namespace>
-```
-
----
-
-## ❌ Deleting Pods
-
-### 🔹 Standard Delete
-
-```bash
-kubectl delete pod <pod-name> -n <namespace-name>
-```
-
-### 🔹 Force Delete
-
-```bash
-kubectl delete pod <pod-name> -n <namespace-name> --force
-```
-
-### 🔹 Immediate Force Delete (No Grace Period)
-
-```bash
-kubectl delete pod <pod-name> -n <namespace-name> --force --grace-period=0
-```
-
----
-
-## ✏️ Editing a Pod
-
-> **Warning:** Pods are **not directly editable**. Attempting to edit a running pod will result in a temporary patch but not persistent changes.
-
-```bash
-kubectl edit pod -n <namespace> <pod-name>
-```
-
----
-
-## 🔧 Executing into a Pod
-
-Use this to start a shell or run commands inside a container:
-
-```bash
-kubectl exec -it -n <namespace> <pod-name> -- <command>
-```
-
-Example for a shell:
-
-```bash
-kubectl exec -it -n dev my-pod -- /bin/bash
-```
-
----
-
-## 🧾 Example Pod YAML Manifest
-
-A multi-container Pod with resource limits and node selector:
+Example: [manifests/pod.yaml](./manifests/pod.yaml)
 
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
+  name: web
   namespace: dev
-  name: pod-1
   labels:
-    label1: test
-    label2: test2
-    app.kubernetes.io/label3: test3
-    app.kubernetes.io/label4: test4
+    app: web
 spec:
   containers:
-    - name: nginx-server
-      image: nginx
-
-    - name: nginx-exporter
-      image: nginx-exporter
-
-    - name: ubuntu-c0
-      image: ubuntu
-      command: ["/bin/bash", "-c", "while true; do echo hello-world; sleep 5; done"]
+    - name: nginx
+      image: nginx:1.27
+      ports:
+        - containerPort: 80
       resources:
-        limits:
-          memory: "256Mi"
-          cpu: "250m"
         requests:
-          memory: "128Mi"
-          cpu: "125m"
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 250m
+          memory: 256Mi
   nodeSelector:
-    hostname: k3s
-    app.kubernetes.io/disk: ssd
+    disktype: ssd
 ```
 
+**Multi-container Pods** are for tightly coupled helpers (sidecars: log shipper, proxy). Unrelated apps should be separate Pods/Deployments.
+
+---
+
+## Related
+
+- [Probes](./18-probes.md) — liveness / readiness / startup
+- [Lifecycle hooks](./15-lifecycle-hooks.md) — `postStart` / `preStop`
+- [Deployments](./04-deployments.md) — managed replicas and rollouts
+- [Debugging](../operations/02-debugging.md) — logs, events, failure patterns

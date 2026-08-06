@@ -1,6 +1,8 @@
-# Kubernetes Services
+# Services
 
 A **Service** provides a stable network endpoint for a set of Pods. It uses label selectors to route traffic and gets a cluster-internal DNS name automatically.
+
+[← CronJobs](./08-cronjobs.md) · [Kubernetes index](../README.md) · [Deployment + Service →](./10-deployment-with-service.md)
 
 ```
 Client → Service (stable IP/DNS) → Endpoints → Pods
@@ -11,7 +13,6 @@ Client → Service (stable IP/DNS) → Endpoints → Pods
 ![Service routes traffic to matching Pods](../images/services-overview.png)
 
 ![Service exposes Pods with a stable endpoint](../images/module-services.png)
-
 
 ## Service types
 

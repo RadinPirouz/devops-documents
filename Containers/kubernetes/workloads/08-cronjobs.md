@@ -1,53 +1,84 @@
-# ⏰ Kubernetes CronJobs
+# CronJobs
 
-A **CronJob** in Kubernetes allows you to run jobs on a recurring schedule, similar to traditional UNIX `cron` jobs. Ideal for periodic tasks like backups, reports, or scheduled notifications.
+A **CronJob** creates Jobs on a schedule (same idea as Unix cron). Use for periodic backups, reports, and cleanup tasks.
+
+[← Jobs](./07-jobs.md) · [Kubernetes index](../README.md) · [Services →](./09-services.md)
 
 ---
 
 ![CronJob creates Jobs on a schedule](../images/cronjob.png)
 
+## Schedule
 
-## 🔍 CronJob Commands
-
-### 📄 List CronJobs in a Namespace
-```bash
-kubectl get cronjobs.batch -n <namespace>
+```
+┌────────── minute (0–59)
+│ ┌──────── hour (0–23)
+│ │ ┌────── day of month (1–31)
+│ │ │ ┌──── month (1–12)
+│ │ │ │ ┌── day of week (0–6, Sun=0)
+* * * * *
 ```
 
-### ❌ Delete a CronJob
+Examples: `0 * * * *` (hourly), `0 2 * * *` (02:00 daily), `*/5 * * * *` (every 5 minutes).
+
+`* * * * *` runs **every minute** — fine for labs, noisy in production.
+
+---
+
+## Important fields
+
+| Field | Meaning |
+| --- | --- |
+| `schedule` | Cron expression (required) |
+| `concurrencyPolicy` | `Allow` / `Forbid` / `Replace` overlapping runs |
+| `startingDeadlineSeconds` | Skip run if missed by this many seconds |
+| `successfulJobsHistoryLimit` | How many completed Jobs to keep (default 3) |
+| `failedJobsHistoryLimit` | How many failed Jobs to keep (default 1) |
+| `suspend` | `true` pauses new Job creation |
+
+Timezone follows the kube-controller-manager (often UTC). Use explicit UTC schedules to avoid surprises.
+
+---
+
+## Commands
 
 ```bash
-kubectl delete cronjobs.batch -n <namespace> <cronjob-name>
+kubectl get cronjobs -n <namespace>
+kubectl describe cronjob <name> -n <namespace>
+kubectl get jobs -n <namespace>
+kubectl delete cronjob <name> -n <namespace>
 ```
 
 ---
 
-## 🧾 Example CronJob Manifest
+## Example manifest
 
-This CronJob runs every minute and prints the date followed by "Kubernetes":
+Example: [manifests/cronjob.yaml](./manifests/cronjob.yaml)
 
 ```yaml
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: cronjob1
+  name: date-tick
   namespace: ns
 spec:
-  schedule: "* * * * *"
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
         spec:
-          containers:
-            - name: cronjob
-              image: debian:bookworm
-              command:
-                - /bin/bash
-                - -c
-                - date; echo Kubernetes
           restartPolicy: Never
+          containers:
+            - name: tick
+              image: busybox:1.36
+              command: ["/bin/sh", "-c", "date; echo tick"]
 ```
 
-> The `schedule` field uses standard cron syntax: `minute hour day-of-month month day-of-week`.
-> Test schedules carefully — `* * * * *` runs every minute.
+---
 
+## Related
+
+- [Jobs](./07-jobs.md) — completions, parallelism, backoff

@@ -1,66 +1,67 @@
-# Node Management
+# Node management
 
-Commands for listing nodes and performing maintenance (cordon, drain, uncordon).
+List nodes and take them in/out of service for maintenance with cordon, drain, and uncordon.
+
+[← Debugging](./02-debugging.md) · [Kubernetes index](../README.md) · [Labels →](./04-labels.md)
 
 ---
 
 ![kubectl drain evicts Pods before node maintenance](../images/kubectl-drain.png)
 
+## List nodes
 
-## 📋 Listing Nodes
-
-### 🔹 Show All Nodes
 ```bash
 kubectl get nodes
+kubectl get nodes -o wide
+kubectl get nodes --show-labels
+kubectl describe node <node-name>
 ```
 
-### 🔹 Show Nodes with Labels
+Useful describe fields: **Conditions** (`Ready`, `MemoryPressure`, …), **Taints**, **Allocated resources**, **Events**.
+
+---
+
+## Cordon / uncordon
+
+Cordon marks a node **unschedulable** — existing Pods keep running; new Pods are not placed there.
 
 ```bash
-kubectl get nodes --show-labels
+kubectl cordon <node-name>
+kubectl uncordon <node-name>
 ```
 
 ---
 
-## 🔧 Node Maintenance (Cordon / Drain)
+## Drain
 
-### 🚫 Cordon a Node
-
-Prevent new pods from being scheduled on the node.
+Drain cordons the node and **evicts** Pods so you can reboot or remove the machine safely.
 
 ```bash
-kubectl cordon <node-name>
+# Typical maintenance drain
+kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data
+
+# Lab / stuck Pods (use carefully)
+kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data --force
 ```
 
-### ✅ Uncordon a Node
+| Flag | Meaning |
+| --- | --- |
+| `--ignore-daemonsets` | Required on almost every node (kube-proxy, CNI, …) |
+| `--delete-emptydir-data` | Allow eviction of Pods using emptyDir (old name: `--delete-local-data`) |
+| `--force` | Continue even if Pods are unmanaged or missing controllers |
+| `--grace-period=N` | Override termination grace period |
 
-Mark the node as schedulable again.
+> Drain disrupts workloads. Ensure Deployments/StatefulSets can reschedule elsewhere, and plan for PodDisruptionBudgets in production.
 
-```bash
-kubectl uncordon <node-name>
-```
-
-### 🧹 Drain a Node
-
-Evict all pods from the node (excluding those managed by DaemonSets).
-
-* Forcefully drain the node:
-
-  ```bash
-  kubectl drain <node-name> --ignore-daemonsets --force
-  ```
-
-* Drain and delete local data:
-
-  ```bash
-  kubectl drain <node-name> --ignore-daemonsets --delete-local-data
-  ```
-
-#### 🔄 Undo Drain (Uncordon)
+After maintenance:
 
 ```bash
 kubectl uncordon <node-name>
 ```
 
-> ⚠️ **Warning:** Draining a node will evict running pods. Ensure that this is planned to avoid service disruption.
+---
 
+## Related
+
+- [Labels](./04-labels.md) — nodeSelector / affinity
+- [DaemonSets](../workloads/06-daemonsets.md)

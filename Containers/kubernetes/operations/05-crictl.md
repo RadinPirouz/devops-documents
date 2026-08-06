@@ -1,17 +1,14 @@
-# **crictl: CLI for CRI-Compatible Container Runtimes**
+# crictl (CRI runtime CLI)
 
-## Overview
+CLI for CRI-compatible runtimes (containerd, CRI-O). Node-level inspect/debug of pods, containers, and images — not a replacement for `kubectl` for app workloads.
 
-`crictl` is a **command-line interface** for **Container Runtime Interface (CRI)**–compatible runtimes such as **containerd** and **CRI-O**, primarily used within Kubernetes environments.
+[← Labels](./04-labels.md) · [Kubernetes index](../README.md)
 
-It provides node-level visibility and control over pods, containers, and images. While it resembles Docker CLI in syntax, it is designed for **debugging** and **inspection**, not for managing workloads outside Kubernetes control.
-
-`crictl` is part of the **[cri-tools](https://github.com/kubernetes-sigs/cri-tools)** project, which also includes `critest`.
+Part of [cri-tools](https://github.com/kubernetes-sigs/cri-tools) (with `critest`).
 
 ---
 
 ![crictl inspects pods at the CRI runtime layer](../images/crictl-pods.png)
-
 
 ## Installation
 

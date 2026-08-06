@@ -8,7 +8,6 @@ Cluster setup, workloads, storage, and day-to-day operations with `kubectl`.
 
 ![Kubernetes cluster components (control plane + nodes)](./images/architecture-components.png)
 
-
 ## Directory layout
 
 ```
@@ -56,6 +55,8 @@ Apply manifests from [workloads/manifests/](./workloads/manifests/) alongside ea
 | 14 | Ingress | [workloads/14-ingress.md](./workloads/14-ingress.md) |
 | 15 | Lifecycle hooks | [workloads/15-lifecycle-hooks.md](./workloads/15-lifecycle-hooks.md) |
 | 16 | LimitRange | [workloads/16-limit-range.md](./workloads/16-limit-range.md) |
+| 17 | StatefulSets | [workloads/17-statefulsets.md](./workloads/17-statefulsets.md) |
+| 18 | Probes | [workloads/18-probes.md](./workloads/18-probes.md) |
 
 **Controller comparison**
 

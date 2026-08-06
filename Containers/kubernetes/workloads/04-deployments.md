@@ -1,6 +1,10 @@
-# 🚀 Kubernetes Deployment Management
+# Deployments
 
-A guide to managing **Deployments** in Kubernetes, including listing, editing, scaling, rollbacks, and version history.
+A **Deployment** manages ReplicaSets and provides declarative updates for Pods — scaling, rolling updates, pause/resume, and rollbacks.
+
+Prefer Deployments over bare Pods or ReplicaSets for almost all long-running stateless apps.
+
+[← ReplicaSets](./03-replicasets.md) · [Kubernetes index](../README.md) · [HPA →](./05-hpa.md)
 
 ---
 
@@ -8,105 +12,107 @@ A guide to managing **Deployments** in Kubernetes, including listing, editing, s
 
 ![Rolling update replaces Pods gradually](../images/rolling-update.png)
 
-
-## 📋 Listing & Editing Deployments
-
-### 🔹 List Deployments in a Namespace
+## Commands
 
 ```bash
 kubectl get deploy -n <namespace>
+kubectl describe deploy <name> -n <namespace>
+kubectl edit deploy <name> -n <namespace>
+
+# Scale
+kubectl scale deploy <name> --replicas=5 -n <namespace>
+
+# Change image (creates a new revision)
+kubectl set image deploy/<name> <container>=<image>:<tag> -n <namespace>
+
+# Rollout
+kubectl rollout status deploy/<name> -n <namespace>
+kubectl rollout history deploy/<name> -n <namespace>
+kubectl rollout history deploy/<name> --revision=2 -n <namespace>
+kubectl rollout undo deploy/<name> -n <namespace>
+kubectl rollout undo deploy/<name> --to-revision=2 -n <namespace>
+kubectl rollout pause deploy/<name> -n <namespace>
+kubectl rollout resume deploy/<name> -n <namespace>
 ```
 
-### 🔹 Edit a Deployment
-
-```bash
-kubectl edit deployment.apps -n <namespace> <deployment-name>
-```
-
-> 🛠️ **Note:**
-> Unlike ReplicaSets, Deployments **automatically update** existing Pods when the image or spec is changed. This makes Deployments ideal for rolling updates and version control.
+Unlike editing a ReplicaSet, changing a Deployment’s Pod template triggers a controlled rollout.
 
 ---
 
-## 📈 Scaling a Deployment
+## Rolling update strategy
 
-Scale the number of replicas (Pods) for a Deployment:
+Default strategy is `RollingUpdate`:
 
-```bash
-kubectl scale -n <namespace> deployment <deployment-name> --replicas=<number>
+```yaml
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
 ```
+
+| Field | Meaning |
+| --- | --- |
+| `maxUnavailable` | How many Pods may be down during the update |
+| `maxSurge` | How many extra Pods may exist above `replicas` |
+
+`Recreate` kills all old Pods before creating new ones (downtime). See also overview notes on blue/green and canary patterns.
 
 ---
 
-## 🔁 Rollout Management
+## Example manifest
 
-### 🔹 View Rollout History
-
-```bash
-kubectl rollout history deployment -n <namespace> <deployment-name>
-```
-
-### 🔹 View Specific Revision
-
-```bash
-kubectl rollout history deployment -n <namespace> <deployment-name> --revision=<revision-number>
-```
-
-### 🔹 Roll Back to a Previous Revision
-
-```bash
-kubectl rollout undo deployment -n <namespace> <deployment-name> --to-revision=<revision-number>
-```
-
-> ✅ **Tip:**
-> Deployments maintain revision history. This allows you to **roll back to a previous working version** in case of failure.
-
----
-
-## 🧾 Example Deployment YAML
+Example: [manifests/deployment.yaml](./manifests/deployment.yaml)
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-1
+  name: web
   namespace: dev
   labels:
-    label1: test1
-    app.kubernetes.io/label2: test2
+    app: web
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app.kubernetes.io/label2: test2
+      app: web
   template:
     metadata:
       labels:
-        app.kubernetes.io/label2: test2
-        os: linux
+        app: web
     spec:
       containers:
         - name: nginx
-          image: nginx
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
 ```
-
-> 🎯 **Why use Deployments?**
-> They offer:
-
-* Rolling updates
-* Rollbacks
-* Declarative Pod management
-* History tracking
 
 ---
 
-## ✅ Summary
+## Comparison
 
-| Feature          | Pod | ReplicaSet | Deployment |
-| ---------------- | --- | ---------- | ---------- |
-| Manual creation  | ✅   | 🚫         | 🚫         |
-| Scales Pods      | ❌   | ✅          | ✅          |
-| Self-healing     | ❌   | ✅          | ✅          |
-| Rolling updates  | ❌   | ❌          | ✅          |
-| Revision history | ❌   | ❌          | ✅          |
+| Feature | Pod | ReplicaSet | Deployment |
+| --- | --- | --- | --- |
+| Manual one-off | Yes | No | No |
+| Scales Pods | No | Yes | Yes |
+| Self-healing | No | Yes | Yes |
+| Rolling updates | No | No | Yes |
+| Revision history | No | No | Yes |
 
+---
+
+## Related
+
+- [HPA](./05-hpa.md) — autoscale replica count
+- [Deployment + Service walkthrough](./10-deployment-with-service.md)
+- [Services](./09-services.md)

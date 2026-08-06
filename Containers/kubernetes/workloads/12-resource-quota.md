@@ -1,11 +1,12 @@
 # ResourceQuota
 
-A **ResourceQuota** limits total resource consumption and object counts within a namespace. Use it together with [LimitRange](./16-limit-range.md), which sets per-Pod or per-container defaults and bounds.
+Limits total resource consumption and object counts within a namespace. Pair with [LimitRange](./16-limit-range.md) for per-Pod defaults and caps.
+
+[← ConfigMaps](./11-configmaps.md) · [Kubernetes index](../README.md) · [Secrets →](./13-secrets.md)
 
 ---
 
 ![ResourceQuota limits namespace resource usage](../images/resource-quota.png)
-
 
 ## Commands
 

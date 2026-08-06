@@ -1,6 +1,8 @@
 # Horizontal Pod Autoscaler (HPA)
 
-The Horizontal Pod Autoscaler automatically adjusts the replica count of a Deployment (or StatefulSet) based on observed metrics — typically CPU or memory utilization.
+Automatically adjusts replica count of a Deployment (or StatefulSet) from observed metrics — typically CPU or memory.
+
+[← Deployments](./04-deployments.md) · [Kubernetes index](../README.md) · [DaemonSets →](./06-daemonsets.md)
 
 **Requirements:**
 
@@ -14,7 +16,6 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 ---
 
 ![Horizontal Pod Autoscaler scales replicas from metrics](../images/hpa.png)
-
 
 ## Commands
 

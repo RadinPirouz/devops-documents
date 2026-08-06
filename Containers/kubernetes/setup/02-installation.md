@@ -1,13 +1,14 @@
-# Containerd and Kubernetes Installation
+# Install containerd + Kubernetes (kubeadm)
 
-Step-by-step guide for setting up a Kubernetes cluster with **containerd** as the container runtime on Ubuntu-based systems.
+Step-by-step cluster bootstrap with **containerd** on Ubuntu.
 
-Prerequisites: Ubuntu 22.04/24.04, root/sudo access, static IP on the control-plane node.
+[← Overview](./01-overview.md) · [Kubernetes index](../README.md) · [kubectl basics →](./03-kubectl-basics.md)
+
+Prerequisites: Ubuntu 22.04/24.04, root/sudo, static IP on the control-plane node.
 
 ---
 
 ![Kubernetes cluster with master and worker nodes](../images/module-cluster.png)
-
 
 ## 1. Disable swap
 
@@ -169,5 +170,11 @@ kubectl get pods -A
 ```
 
 All nodes should show `Ready`. Core system Pods (`kube-system`) should be `Running`.
+
+**Single-node lab:** by default the control-plane node is tainted so workloads do not schedule there. To allow Pods on the same node:
+
+```bash
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+```
 
 **Next:** [03-kubectl-basics.md](./03-kubectl-basics.md) — shell completion, aliases, and context management.

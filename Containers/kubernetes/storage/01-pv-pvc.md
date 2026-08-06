@@ -1,6 +1,8 @@
-# Persistent Volumes and Persistent Volume Claims
+# Persistent Volumes and Claims
 
-A **PersistentVolume (PV)** is cluster storage provisioned by an administrator or dynamically via a **StorageClass**. A **PersistentVolumeClaim (PVC)** is a request for storage that binds to a matching PV.
+A **PersistentVolume (PV)** is cluster storage (admin or StorageClass). A **PersistentVolumeClaim (PVC)** requests storage and binds to a matching PV.
+
+[← Kubernetes index](../README.md) · [emptyDir →](./02-emptydir.md)
 
 ```
 PVC (request) → binds to → PV (actual storage) → mounted in Pod
@@ -11,7 +13,6 @@ PVC (request) → binds to → PV (actual storage) → mounted in Pod
 ![Pod → PVC → PV → storage layers](../images/pv-pvc.png)
 
 ![PVC bound via StorageClass](../images/pvc-storageclass.png)
-
 
 ## Storage layers
 

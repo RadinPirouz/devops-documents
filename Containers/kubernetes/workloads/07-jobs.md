@@ -1,49 +1,68 @@
-# ⏳ Kubernetes Jobs
+# Jobs
 
-A **Job** in Kubernetes runs a pod to completion. It ensures that a specified number of pods successfully terminate.
+A **Job** creates one or more Pods and retries until a specified number succeed. Use Jobs for batch work: backups, migrations, reports — anything that should run **to completion**.
 
-Use Jobs for **batch processing**, **one-off tasks**, or **short-lived workloads**.
+[← DaemonSets](./06-daemonsets.md) · [Kubernetes index](../README.md) · [CronJobs →](./08-cronjobs.md)
 
 ---
 
 ![Job runs Pods until completion](../images/job.png)
 
+## Key fields
 
-## 🔍 Job Commands
+| Field | Meaning |
+| --- | --- |
+| `completions` | How many successful Pods before the Job is done (default 1) |
+| `parallelism` | How many Pods may run at once |
+| `backoffLimit` | Retries before the Job is marked Failed (default 6) |
+| `activeDeadlineSeconds` | Hard time limit for the whole Job |
+| `ttlSecondsAfterFinished` | Auto-cleanup finished Jobs |
 
-### 📄 List Jobs in a Namespace
-```bash
-kubectl get jobs.batch -n <namespace>
-```
-
-### ❌ Delete a Job
-
-```bash
-kubectl delete jobs.batch -n <namespace> <job-name>
-```
+Pod `restartPolicy` must be `Never` or `OnFailure` (not `Always`).
 
 ---
 
-## 🧾 Example Job Manifest
+## Commands
 
-Here’s a minimal example of a Job that runs a simple `echo` command:
+```bash
+kubectl get jobs -n <namespace>
+kubectl describe job <name> -n <namespace>
+kubectl logs job/<name> -n <namespace>
+kubectl delete job <name> -n <namespace>
+```
+
+Deleting a Job also deletes its Pods (unless you use orphan cascading — rarely needed).
+
+---
+
+## Example manifest
+
+Example: [manifests/job.yaml](./manifests/job.yaml)
 
 ```yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: myjob
+  name: hello
   namespace: ns
 spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 3
   template:
     spec:
-      containers:
-        - name: job1
-          image: alpine
-          command: ["/bin/sh", "-c", "echo hello world"]
       restartPolicy: Never
+      containers:
+        - name: hello
+          image: busybox:1.36
+          command: ["/bin/sh", "-c", "echo hello world"]
 ```
 
-> 💡 **Note:** Always set `restartPolicy` to `Never` or `OnFailure` for jobs.
-> 📌 Jobs are useful for tasks like backups, report generation, or database migrations.
+Parallel example: `completions: 5`, `parallelism: 2` runs up to two Pods at a time until five succeed.
 
+---
+
+## Related
+
+- [CronJobs](./08-cronjobs.md) — schedule Jobs on a timetable
+- [Debugging](../operations/02-debugging.md)

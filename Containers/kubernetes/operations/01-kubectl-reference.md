@@ -1,13 +1,14 @@
-# Kubernetes Command Reference
+# kubectl reference
 
 Common `kubectl` commands for everyday cluster management.
 
-See also: [02-debugging.md](./02-debugging.md) · [03-node-management.md](./03-node-management.md) · [04-labels.md](./04-labels.md)
+[← Kubernetes index](../README.md) · [Debugging →](./02-debugging.md)
+
+See also: [debugging](./02-debugging.md) · [node management](./03-node-management.md) · [labels](./04-labels.md)
 
 ---
 
 ![kubectl command-line access to the API](../images/kubectl.png)
-
 
 ## API discovery
 

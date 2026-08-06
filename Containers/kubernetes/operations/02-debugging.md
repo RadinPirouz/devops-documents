@@ -1,11 +1,12 @@
-# Logs and Debugging
+# Logs and debugging
 
-Commands for inspecting Pod state, streaming logs, and troubleshooting failed workloads.
+Inspect Pod state, stream logs, and troubleshoot failed workloads.
+
+[← kubectl reference](./01-kubectl-reference.md) · [Kubernetes index](../README.md) · [Node management →](./03-node-management.md)
 
 ---
 
 ![Node-level logging agent collects container logs](../images/logging-node-agent.png)
-
 
 ## Stream logs
 
@@ -57,12 +58,32 @@ kubectl cp -n <namespace> <pod-name>:/path/to/dir ./local-dir
 
 ---
 
+## Events
+
+```bash
+kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+kubectl get events -A --sort-by='.lastTimestamp' | tail -30
+```
+
+Events explain scheduling failures, failed mounts, probe errors, and image pulls. Always pair with `kubectl describe`.
+
+---
+
 ## Common failure patterns
 
 | Symptom | What to check |
 | --- | --- |
-| `ImagePullBackOff` | Image name/tag, registry credentials, network |
-| `CrashLoopBackOff` | `kubectl logs --previous`, entrypoint/command, probes |
-| `Pending` | Node resources, taints, PVC binding, `kubectl describe pod` events |
-| `OOMKilled` | Memory limits too low; check `kubectl describe pod` |
-| Service unreachable | Endpoints (`kubectl get ep`), selector labels, `targetPort` |
+| `ImagePullBackOff` | Image name/tag, registry credentials (`imagePullSecrets`), network |
+| `CrashLoopBackOff` | `kubectl logs --previous`, entrypoint/command, [probes](../workloads/18-probes.md) |
+| `Pending` | Node CPU/memory, taints/tolerations, PVC binding, affinity |
+| `OOMKilled` | Memory `limits` too low; describe Pod / node pressure |
+| `CreateContainerConfigError` | Missing Secret/ConfigMap referenced by the Pod |
+| Service unreachable | `kubectl get endpoints`, selector labels, `targetPort` vs `containerPort` |
+| Probe `Unhealthy` | Path/port/timing — see [Probes](../workloads/18-probes.md) |
+
+---
+
+## Related
+
+- [Probes](../workloads/18-probes.md)
+- [crictl](./05-crictl.md) — runtime-level view when kubelet looks wrong

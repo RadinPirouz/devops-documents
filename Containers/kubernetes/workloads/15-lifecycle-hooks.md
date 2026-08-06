@@ -1,20 +1,17 @@
-# Kubernetes Lifecycle Hooks: `postStart` and `preStop`
+# Lifecycle hooks (`postStart` / `preStop`)
+
+Run setup or cleanup around container start and stop. Defined on each container in the Pod spec.
+
+[← Ingress](./14-ingress.md) · [Kubernetes index](../README.md) · [LimitRange →](./16-limit-range.md)
 
 ## Overview
 
-In Kubernetes, **lifecycle hooks** allow you to run specific code when a container starts or stops. These hooks are part of a container’s lifecycle and are useful for performing setup and cleanup tasks.
-
-The two main lifecycle hooks are:
-
-* **`postStart`** – Executed immediately after the container starts.
-* **`preStop`** – Executed just before the container stops.
-
-These hooks can be defined inside the container specification in a Pod manifest.
+* **`postStart`** — right after the container starts (async with the main process).
+* **`preStop`** — just before the container stops (before SIGTERM / within grace period).
 
 ---
 
 ![Container postStart and preStop lifecycle hooks](../images/lifecycle-hooks.png)
-
 
 ## 1. `postStart` Hook
 

@@ -1,13 +1,16 @@
-# 🛠️ Setting Up a High Availability etcd Cluster for Kubernetes
+# External HA etcd for Kubernetes
 
-This guide walks you through installing a 3-node etcd cluster and using it as an **external HA datastore for Kubernetes**.
+Install a 3-node etcd cluster and point kubeadm at it as an **external** datastore (instead of stacked etcd on control-plane nodes).
+
+[← kubectl basics](./03-kubectl-basics.md) · [Kubernetes index](../README.md)
+
+> **Lab only:** examples below use plain `http://` etcd endpoints. Production HA etcd **must** use TLS client/peer certs and secure `https://` URLs. See the [kubeadm external etcd docs](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/).
 
 ---
 
 ![kubeadm HA topology with external etcd](../images/external-etcd.png)
 
-
-## 📦 Step 1: Install etcd
+## Step 1: Install etcd
 
 Download the etcd binary:
 
@@ -35,7 +38,7 @@ mkdir -p /var/lib/etcd
 
 ---
 
-## ⚙️ Step 2: Configure etcd Systemd Services
+## Step 2: Configure etcd Systemd Services
 
 Create a systemd unit at `/etc/systemd/system/etcd.service`:
 
@@ -122,7 +125,7 @@ WantedBy=multi-user.target
 
 ---
 
-## ▶️ Step 3: Start etcd Service
+## Step 3: Start etcd Service
 
 Enable and start etcd on **each server**:
 
@@ -134,7 +137,7 @@ sudo systemctl status etcd
 
 ---
 
-## ✅ Step 4: Verify etcd Cluster Health
+## Step 4: Verify etcd Cluster Health
 
 Check endpoint health:
 
@@ -152,7 +155,7 @@ If all members are healthy and visible, you're ready to move on.
 
 ---
 
-## ☸️ Step 5: Install Kubernetes (Using External etcd)
+## Step 5: Install Kubernetes (Using External etcd)
 
 Create a configuration file `config.yaml` on the **master node**:
 
@@ -178,7 +181,7 @@ kubeadm init --config config.yaml
 
 ---
 
-## 🎉 Done!
+## Done
 
-You now have a **Kubernetes cluster with external, high availability etcd**. :)
+You now have a Kubernetes control plane backed by an **external HA etcd** cluster. Harden with TLS before any real workload traffic.
 

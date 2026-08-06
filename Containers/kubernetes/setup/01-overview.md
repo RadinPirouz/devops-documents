@@ -1,6 +1,8 @@
-# Kubernetes (K8s) – Technical Documentation
+# Kubernetes overview
 
-[← Kubernetes index](../README.md)
+Architecture and core concepts. Deep dives live in the linked guides.
+
+[← Kubernetes index](../README.md) · [Install →](./02-installation.md)
 
 ## 1. Overview
 
@@ -13,7 +15,6 @@ Kubernetes follows a **control plane / worker node** architecture and is designe
 ![Kubernetes architecture — control plane and worker node components](../images/architecture-components.png)
 
 ![Detailed Kubernetes cluster architecture](../images/architecture.png)
-
 
 ## 2. Kubernetes Architecture
 
@@ -195,7 +196,9 @@ cluster.local
 
 ---
 
-## 10. Pod Lifecycle Hooks
+## 10. Pod lifecycle hooks
+
+See [Lifecycle hooks](../workloads/15-lifecycle-hooks.md).
 
 ### postStart
 
@@ -224,19 +227,18 @@ cluster.local
 
 ---
 
-## 12. Workload Types
+## 12. Workload types
 
-Common Kubernetes workloads:
+| Type | Guide |
+| --- | --- |
+| Deployment | [04-deployments](../workloads/04-deployments.md) |
+| ReplicaSet | [03-replicasets](../workloads/03-replicasets.md) |
+| StatefulSet | [17-statefulsets](../workloads/17-statefulsets.md) |
+| DaemonSet | [06-daemonsets](../workloads/06-daemonsets.md) |
+| Job / CronJob | [07-jobs](../workloads/07-jobs.md) · [08-cronjobs](../workloads/08-cronjobs.md) |
+| Pod | [02-pods](../workloads/02-pods.md) |
 
-* Deployment
-* ReplicaSet
-* StatefulSet
-* DaemonSet
-* Job
-* CronJob
-
-Examples:
-[https://k8s-examples.container-solutions.com/](https://k8s-examples.container-solutions.com/)
+External examples: [k8s-examples.container-solutions.com](https://k8s-examples.container-solutions.com/)
 
 ---
 
@@ -269,11 +271,7 @@ These are directly bound to nodes.
 
 ### Horizontal Pod Autoscaler (HPA)
 
-* Scales replicas based on:
-
-  * CPU
-  * Memory
-  * Custom metrics
+See [HPA](../workloads/05-hpa.md). Scales replicas based on CPU, memory, or custom metrics.
 
 ### Vertical Pod Autoscaler (VPA)
 
@@ -290,17 +288,11 @@ Components:
 
 ---
 
-## 16. Resource Management
+## 16. Resource management
 
-### ResourceQuota
-
-* Limits total resource usage per namespace
-* Controls CPU, memory, object count, etc.
-
-### LimitRange
-
-* Sets default and maximum limits per Pod or container
-* Applies at namespace level
+* [ResourceQuota](../workloads/12-resource-quota.md) — limits total usage per namespace
+* [LimitRange](../workloads/16-limit-range.md) — defaults and caps per Pod/container
+* [Probes](../workloads/18-probes.md) — liveness / readiness / startup
 
 ---
 

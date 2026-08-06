@@ -1,81 +1,128 @@
-# 🔐 Kubernetes Secrets Guide
+# Secrets
 
-Kubernetes **Secrets** are used to store and manage sensitive information such as passwords, OAuth tokens, and SSH keys. Unlike ConfigMaps, they are specifically designed for confidential data.
+Store sensitive data (passwords, tokens, TLS keys) separately from Pod specs and images. Secrets are **base64-encoded in etcd by default — not encrypted**. Treat them as confidential config, not a vault.
+
+[← ResourceQuota](./12-resource-quota.md) · [Kubernetes index](../README.md) · [Ingress →](./14-ingress.md)
 
 ---
 
 ![Secret mounts sensitive data into Pods](../images/secret.png)
 
+## Common types
 
-## 📌 Types of Kubernetes Secrets
-
-| **Built-in Type**                     | **Usage**                               |
-| ------------------------------------- | --------------------------------------- |
-| `Opaque`                              | Arbitrary user-defined data             |
-| `kubernetes.io/service-account-token` | ServiceAccount token                    |
-| `kubernetes.io/dockercfg`             | Serialized `~/.dockercfg` file          |
-| `kubernetes.io/dockerconfigjson`      | Serialized `~/.docker/config.json` file |
-| `kubernetes.io/basic-auth`            | Credentials for basic authentication    |
-| `kubernetes.io/ssh-auth`              | Credentials for SSH authentication      |
-| `kubernetes.io/tls`                   | Data for a TLS client or server         |
-| `bootstrap.kubernetes.io/token`       | Bootstrap token data                    |
+| Type | Use |
+| --- | --- |
+| `Opaque` | Arbitrary key/value (default) |
+| `kubernetes.io/tls` | TLS cert + key |
+| `kubernetes.io/dockerconfigjson` | Private registry pull credentials |
+| `kubernetes.io/basic-auth` | Username / password |
+| `kubernetes.io/ssh-auth` | SSH private key |
 
 ---
 
-## 📂 Creating a Secret
-
-You can create a Secret directly with `kubectl`:
+## Create
 
 ```bash
-kubectl create secret generic db-pass --from-literal=password='123'
+# Generic (Opaque)
+kubectl create secret generic db-pass \
+  --from-literal=username=admin \
+  --from-literal=password='s3cret' \
+  -n <namespace>
+
+# From files
+kubectl create secret generic app-config \
+  --from-file=./username.txt \
+  --from-file=./password.txt \
+  -n <namespace>
+
+# TLS
+kubectl create secret tls my-tls \
+  --cert=path/to/tls.crt \
+  --key=path/to/tls.key \
+  -n <namespace>
+
+# Registry
+kubectl create secret docker-registry regcred \
+  --docker-server=<registry> \
+  --docker-username=<user> \
+  --docker-password=<pass> \
+  -n <namespace>
+
+kubectl get secrets -n <namespace>
+kubectl describe secret db-pass -n <namespace>
 ```
 
-Verify it exists:
-
-```bash
-kubectl get secret db-pass
-```
+Never commit real secret values to git. Prefer sealed-secrets, External Secrets, or a cloud KMS in production; enable encryption at rest for etcd when you can.
 
 ---
 
-## 📜 Secret YAML Example
+## Manifest (`stringData`)
 
 ```yaml
 apiVersion: v1
 kind: Secret
 metadata:
   name: db-pass
+  namespace: ns
 type: Opaque
 stringData:
-  password: '123'
+  username: admin
+  password: "s3cret"
+```
+
+`stringData` is plaintext in YAML; the API server stores `data` as base64. You can also put base64 values under `data:` yourself.
+
+---
+
+## Use in a Pod — environment
+
+```yaml
+env:
+  - name: MARIADB_ROOT_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: db-pass
+        key: password
 ```
 
 ---
 
-## 🚀 Using a Secret in a Pod
-
-Secrets can be injected into a Pod as **environment variables**:
+## Use in a Pod — volume mount
 
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: mariadb-db
+  name: app
+  namespace: ns
 spec:
   containers:
-    - name: mariadb
-      image: mariadb
-      env:
-        - name: MARIADB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-pass
-              key: password
+    - name: app
+      image: busybox:1.36
+      command: ["sleep", "3600"]
+      volumeMounts:
+        - name: creds
+          mountPath: /etc/creds
+          readOnly: true
+  volumes:
+    - name: creds
+      secret:
+        secretName: db-pass
 ```
 
-This example sets the MariaDB root password from the `db-pass` Secret.
+Each key becomes a file under `/etc/creds` (for example `/etc/creds/password`).
+
+For private images on the Pod:
+
+```yaml
+spec:
+  imagePullSecrets:
+    - name: regcred
+```
 
 ---
 
-✅ **Tip:** Use `stringData` for plaintext values in YAML (Kubernetes encodes them automatically), or `data` with base64-encoded values. Never commit real secrets to version control.
+## Related
 
+- [ConfigMaps](./11-configmaps.md) — non-sensitive configuration
+- [Ingress](./14-ingress.md) — TLS Secrets for HTTPS

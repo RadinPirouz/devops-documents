@@ -1,19 +1,20 @@
 # Ingress
 
-An **Ingress** exposes HTTP and HTTPS routes from outside the cluster to Services inside it. It provides host-based and path-based routing, TLS termination, and load balancing — typically through an **Ingress controller** (NGINX, Traefik, HAProxy, etc.).
+Exposes HTTP/HTTPS routes from outside the cluster to Services. Host/path routing, TLS termination, and load balancing — usually via an **Ingress controller** (NGINX, Traefik, HAProxy, …).
+
+[← Secrets](./13-secrets.md) · [Kubernetes index](../README.md) · [Lifecycle hooks →](./15-lifecycle-hooks.md)
 
 ```
 Internet → Ingress Controller → Ingress rules → Service → Pods
 ```
 
-> Ingress only defines routing rules. You must install an Ingress controller separately for rules to take effect.
+> Ingress only defines rules. Install an Ingress controller separately or nothing happens.
 
 ---
 
 ![Ingress routes HTTP(S) traffic to Services](../images/ingress.png)
 
 ![Ingress fan-out routing to multiple Services](../images/ingress-fanout.png)
-
 
 ## Prerequisites
 

@@ -1,22 +1,21 @@
 # LimitRange
 
-[← Kubernetes index](../README.md#workloads)
+Namespace policy for default, min, and max CPU/memory on Pods and containers. Complements ResourceQuota (namespace totals).
+
+[← Lifecycle hooks](./15-lifecycle-hooks.md) · [Kubernetes index](../README.md) · [StatefulSets →](./17-statefulsets.md)
 
 ## Overview
 
-A **LimitRange** in Kubernetes is a namespace-level policy object that defines constraints on the compute resources that individual **Pods** and **Containers** can request and use. It helps ensure that workloads run efficiently and fairly within a shared cluster.
+A **LimitRange** constrains compute resources that individual **Pods** and **Containers** can request and use:
 
-A LimitRange can set:
+* Minimum and maximum requests/limits
+* Default requests/limits when the user omits them
 
-* Minimum and maximum resource requests and limits
-* Default requests and limits if none are specified by the user
-
-While a **ResourceQuota** enforces limits at the **namespace** level (total resource usage), a **LimitRange** enforces rules at the **Pod or Container** level.
+**ResourceQuota** caps the **namespace** total; **LimitRange** rules apply per **Pod/container**.
 
 ---
 
 ![LimitRange sets default and max resources per Pod](../images/limit-range.png)
-
 
 ### Why Use a LimitRange
 
@@ -105,5 +104,4 @@ kubectl describe limitrange mem-cpu-limits -n dev-team
 ### Summary
 
 A **LimitRange** ensures that every Pod or Container in a namespace has appropriate resource requests and limits, preventing resource misuse and ensuring cluster stability. It complements **ResourceQuota** to provide complete resource management across both individual workloads and namespaces.
-
 

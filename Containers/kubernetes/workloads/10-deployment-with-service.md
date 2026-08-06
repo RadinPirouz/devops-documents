@@ -1,8 +1,14 @@
 # Deployment with Service — Walkthrough
 
-A single manifest that creates a namespace, a Deployment, and a ClusterIP Service. The Service routes port 80 to container port 8080 on Pods labeled `app: nginx`.
+One manifest creates a namespace, a Deployment, and a ClusterIP Service. The Service sends traffic on port **80** to nginx containers listening on port **80**.
 
-Full manifest: [manifests/deployment-with-service.yaml](./manifests/deployment-with-service.yaml)
+Full file: [manifests/deployment-with-service.yaml](./manifests/deployment-with-service.yaml)
+
+[← Services](./09-services.md) · [Kubernetes index](../README.md) · [ConfigMaps →](./11-configmaps.md)
+
+---
+
+![Deploy an application with Deployment and Service](../images/module-first-app.png)
 
 ```bash
 kubectl apply -f manifests/deployment-with-service.yaml
@@ -10,9 +16,6 @@ kubectl get all -n ns
 ```
 
 ---
-
-![Deploy an application with Deployment and Service](../images/module-first-app.png)
-
 
 ## 1. Namespace
 
@@ -23,7 +26,7 @@ metadata:
   name: ns
 ```
 
-Isolates all resources in this example under the `ns` namespace.
+Isolates this example under `ns`.
 
 ---
 
@@ -44,12 +47,12 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 8080
+      targetPort: 80
 ```
 
-- `selector.app: nginx` must match Pod labels created by the Deployment.
-- `port: 80` is what other Pods reach via DNS (`nginx-service.ns.svc.cluster.local`).
-- `targetPort: 8080` is the port the container listens on.
+- `selector.app: nginx` must match Pod labels from the Deployment.
+- `port: 80` is what clients use (`nginx-service.ns.svc.cluster.local`).
+- `targetPort: 80` is the container port (`nginx:latest` listens on 80).
 
 ---
 
@@ -75,9 +78,9 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:latest
+          image: nginx:1.27
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           resources:
             requests:
               cpu: 100m
@@ -87,30 +90,35 @@ spec:
               memory: 256Mi
 ```
 
-- `replicas: 2` keeps two Pods running; the ReplicaSet controller recreates failed Pods.
-- `containerPort: 8080` must match the Service `targetPort`.
-- Resource `requests` are used for scheduling; `limits` cap usage.
+- `replicas: 2` keeps two Pods; the ReplicaSet recreates failures.
+- Resource `requests` affect scheduling; `limits` cap usage.
 
 ---
 
-## Verify connectivity
+## Verify
 
 ```bash
-# Check Pods and Service
-kubectl get pods,svc -n ns
+kubectl get pods,svc,ep -n ns
 
-# Port-forward for local testing
+# Local access
 kubectl port-forward -n ns svc/nginx-service 8080:80
+# curl http://127.0.0.1:8080/
 
-# From another Pod in the cluster
+# From another Pod
 kubectl run curl --rm -it --image=curlimages/curl -n ns -- \
-  curl http://nginx-service/
+  curl -sS http://nginx-service/
+```
+
+Cleanup:
+
+```bash
+kubectl delete -f manifests/deployment-with-service.yaml
 ```
 
 ---
 
-## Related guides
+## Related
 
-- [Services](./09-services.md) — Service types, DNS, port-forwarding
-- [Deployments](./04-deployments.md) — scaling, rollouts, rollbacks
-- [Ingress](./14-ingress.md) — external HTTP/HTTPS access
+- [Services](./09-services.md)
+- [Deployments](./04-deployments.md)
+- [Ingress](./14-ingress.md)

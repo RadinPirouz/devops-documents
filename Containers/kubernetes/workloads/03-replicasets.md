@@ -1,83 +1,78 @@
-# 🧩 Kubernetes ReplicaSet Management
+# ReplicaSets
 
-A guide to working with **ReplicaSets** in Kubernetes, including inspection, editing behavior, and configuration examples.
+A **ReplicaSet** keeps a stable number of identical Pods running. If a Pod dies, the ReplicaSet creates a replacement.
+
+In practice you almost always use a **Deployment**, which owns ReplicaSets and adds rolling updates and rollbacks. Manage ReplicaSets directly only when debugging or learning.
+
+[← Pods](./02-pods.md) · [Kubernetes index](../README.md) · [Deployments →](./04-deployments.md)
 
 ---
 
 ![ReplicaSet maintains a stable set of Pods](../images/replicaset.png)
 
+## Hierarchy
 
-## 📦 Listing Pods and ReplicaSets
-
-### 🔹 List Pods in a Namespace
-
-```bash
-kubectl get pod -n <namespace>
+```
+Deployment
+  └── ReplicaSet (revision)
+        └── Pods
 ```
 
-### 🔹 List ReplicaSets in a Namespace
+Changing a Deployment’s Pod template creates a **new** ReplicaSet and scales the old one down.
+
+---
+
+## Commands
 
 ```bash
 kubectl get rs -n <namespace>
+kubectl get pods -n <namespace>
+kubectl describe rs <name> -n <namespace>
+
+kubectl scale rs <name> --replicas=3 -n <namespace>
+kubectl edit rs <name> -n <namespace>
+kubectl delete rs <name> -n <namespace>
 ```
 
----
-
-## ✏️ Editing a ReplicaSet
-
-You can attempt to edit a ReplicaSet:
+> Editing the image on a ReplicaSet does **not** roll existing Pods. New Pods use the new template only after old Pods are deleted. Use a Deployment for image changes.
 
 ```bash
-kubectl edit rs -n <namespace> <replica-set-name>
+# Force recreate Pods matching a label (lab use)
+kubectl delete pod -l app=web -n <namespace>
 ```
-
-> ⚠️ **Note:**
-> Editing the **image** in a ReplicaSet directly will not automatically update existing Pods.
-> This is because ReplicaSets do not perform **rolling updates**.
-> Pods will only use the new image **after the old ones are deleted and new ones are created**.
-
-**To apply image changes effectively:**
-
-1. **Delete existing Pods** manually:
-
-   ```bash
-   kubectl delete pod -l <label-selector> -n <namespace>
-   ```
-
-2. **Or**, use a higher-level controller like a **Deployment** for image updates and rolling behavior.
 
 ---
 
-## 🧾 Example ReplicaSet YAML
+## Example manifest
 
-Below is a minimal and clear ReplicaSet configuration:
+Example: [manifests/replicaset.yaml](./manifests/replicaset.yaml)
 
 ```yaml
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: app-1
+  name: web
   namespace: dev
-  labels:
-    label1: test1
-    app.kubernetes.io/label2: test2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app.kubernetes.io/label2: test2
+      app: web
   template:
     metadata:
       labels:
-        app.kubernetes.io/label2: test2
-        os: linux
+        app: web
     spec:
       containers:
         - name: nginx
-          image: nginx
+          image: nginx:1.27
 ```
 
-> ✅ **Tip:**
-> Ensure that the `template.metadata.labels` **matches exactly** with `spec.selector.matchLabels`.
-> This is critical for proper ReplicaSet Pod matching.
+`spec.selector.matchLabels` must match `template.metadata.labels` exactly.
 
+---
+
+## Related
+
+- [Deployments](./04-deployments.md) — preferred controller for stateless apps
+- [Labels & selectors](../operations/04-labels.md)

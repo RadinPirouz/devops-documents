@@ -1,11 +1,12 @@
-# kubectl Basic Setup
+# kubectl basics
 
-Shell completion, useful aliases, and context management for day-to-day cluster work.
+Shell completion, aliases, and context management for day-to-day cluster work.
+
+[← Install](./02-installation.md) · [Kubernetes index](../README.md) · [External etcd →](./04-external-etcd.md)
 
 ---
 
 ![kubectl talks to the API server](../images/kubectl.png)
-
 
 ## Shell completion
 

@@ -1,23 +1,24 @@
-# 🧾 Kubernetes ConfigMap Guide
+# ConfigMaps
 
-Manage configuration without hardcoding! `ConfigMaps` let you store external configurations as key-value pairs and inject them into Kubernetes workloads.
+Store non-confidential configuration as key/value data and inject it into Pods as env vars or files. Keep images free of environment-specific config.
+
+[← Deployment + Service](./10-deployment-with-service.md) · [Kubernetes index](../README.md) · [ResourceQuota →](./12-resource-quota.md)
 
 ---
 
 ![ConfigMap injects configuration into Pods](../images/configmap.png)
 
+## What is a ConfigMap?
 
-## 📘 What is a ConfigMap?
+A **ConfigMap** holds **non-secret** configuration. You can:
 
-A **ConfigMap** is a Kubernetes object used to store **non-confidential configuration data** in **key-value** format. You can:
-
-* 📄 Mount it as files inside a Pod
-* 🌿 Use it as environment variables
-* 🧩 Keep your container images decoupled from configuration
+* Mount it as files inside a Pod
+* Expose it as environment variables
+* Decouple container images from environment-specific settings
 
 ---
 
-## ⚙️ Creating a ConfigMap
+## Creating a ConfigMap
 
 You can create a ConfigMap from files or directories:
 
@@ -25,7 +26,7 @@ You can create a ConfigMap from files or directories:
 kubectl -n <namespace> create configmap <configmap-name> --from-file=<file-or-directory>
 ```
 
-### ✅ Examples
+### Examples
 
 ```bash
 # From a single file
@@ -39,7 +40,7 @@ kubectl -n <ns> create configmap nginx-conf \
 
 ---
 
-## 📂 Viewing & Editing ConfigMaps
+## Viewing & Editing ConfigMaps
 
 ```bash
 # List all ConfigMaps in a namespace
@@ -54,7 +55,7 @@ kubectl -n <namespace> edit configmap <configmap-name>
 
 ---
 
-## 📄 YAML: ConfigMap Example
+## YAML: ConfigMap Example
 
 ```yaml
 apiVersion: v1
@@ -77,9 +78,9 @@ data:
 
 ---
 
-## 💡 Usage Examples
+## Usage Examples
 
-### 📌 ConfigMap as Environment Variables
+### ConfigMap as Environment Variables
 
 **ConfigMap:**
 
@@ -114,7 +115,7 @@ spec:
 
 ---
 
-### 🧾 Mounting ConfigMap as a File (nginx.conf example)
+### Mounting ConfigMap as a File (nginx.conf example)
 
 **ConfigMap:**
 
@@ -179,13 +180,14 @@ spec:
 
 ---
 
-## 🛠 Pro Tips
+## Notes
 
-* 🔐 For **sensitive data**, use **Secrets** instead of ConfigMaps.
-* 🧪 Combine ConfigMaps with **Deployment** objects for flexible, versioned config management.
-* 📦 Use `--from-env-file` to load multiple key-value pairs from a `.env` style file:
+* Sensitive data → use [Secrets](./13-secrets.md), not ConfigMaps.
+* Updating a ConfigMap does **not** restart Pods automatically. Remounted files may update (depending on kubelet sync); env vars usually need a rollout: `kubectl rollout restart deploy/<name>`.
+* Optional: `immutable: true` on the ConfigMap to block updates (safer for hashed/referenced configs).
+* Load many keys from a `.env`-style file:
 
   ```bash
-  kubectl create configmap my-config --from-env-file=env.list
+  kubectl create configmap my-config --from-env-file=env.list -n <namespace>
   ```
 
