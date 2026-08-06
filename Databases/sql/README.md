@@ -21,6 +21,7 @@ Practical SQL reference — databases, tables, queries, relations, joins, and no
 | 09 | [Key Types](./09-keys.md) | Super / candidate / primary / alternate / composite / natural / surrogate / foreign |
 | 10 | [Combining Queries](./10-combining-query.md) | `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT` |
 | 11 | [DEFAULT & CHECK](./11-check.md) | `DEFAULT`, column / table `CHECK`, named constraints |
+| 12 | [ERD](./12-erd.md) | Entities, relationships, attributes, cardinality, Chen / Crow’s Foot |
 
 ## Notes
 

@@ -2,7 +2,7 @@
 
 Set fallback values and reject rows that break your rules.
 
-[← Combining Queries](./10-combining-query.md) · [SQL index](./README.md)
+[← Combining Queries](./10-combining-query.md) · [SQL index](./README.md) · [Next: ERD →](./12-erd.md)
 
 ---
 
