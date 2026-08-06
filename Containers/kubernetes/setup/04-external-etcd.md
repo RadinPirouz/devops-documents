@@ -4,6 +4,9 @@ This guide walks you through installing a 3-node etcd cluster and using it as an
 
 ---
 
+![kubeadm HA topology with external etcd](../images/external-etcd.png)
+
+
 ## 📦 Step 1: Install etcd
 
 Download the etcd binary:

@@ -4,6 +4,11 @@ A guide to managing **Deployments** in Kubernetes, including listing, editing, s
 
 ---
 
+![Deployment rolling update of Pods](../images/module-deployment.png)
+
+![Rolling update replaces Pods gradually](../images/rolling-update.png)
+
+
 ## 📋 Listing & Editing Deployments
 
 ### 🔹 List Deployments in a Namespace

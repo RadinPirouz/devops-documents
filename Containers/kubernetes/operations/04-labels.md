@@ -4,6 +4,9 @@ Labels on nodes are used for scheduling (node selectors, affinity), organization
 
 ---
 
+![Labels and selectors group and select resources](../images/module-labels.png)
+
+
 ## Set a label
 
 ```bash

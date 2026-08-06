@@ -4,6 +4,9 @@ A **CronJob** in Kubernetes allows you to run jobs on a recurring schedule, simi
 
 ---
 
+![CronJob creates Jobs on a schedule](../images/cronjob.png)
+
+
 ## 🔍 CronJob Commands
 
 ### 📄 List CronJobs in a Namespace

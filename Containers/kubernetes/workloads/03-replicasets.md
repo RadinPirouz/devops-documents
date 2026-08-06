@@ -4,6 +4,9 @@ A guide to working with **ReplicaSets** in Kubernetes, including inspection, edi
 
 ---
 
+![ReplicaSet maintains a stable set of Pods](../images/replicaset.png)
+
+
 ## 📦 Listing Pods and ReplicaSets
 
 ### 🔹 List Pods in a Namespace

@@ -13,6 +13,9 @@ These hooks can be defined inside the container specification in a Pod manifest.
 
 ---
 
+![Container postStart and preStop lifecycle hooks](../images/lifecycle-hooks.png)
+
+
 ## 1. `postStart` Hook
 
 ### Description

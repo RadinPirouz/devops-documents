@@ -4,6 +4,9 @@ Commands for inspecting Pod state, streaming logs, and troubleshooting failed wo
 
 ---
 
+![Node-level logging agent collects container logs](../images/logging-node-agent.png)
+
+
 ## Stream logs
 
 ```bash

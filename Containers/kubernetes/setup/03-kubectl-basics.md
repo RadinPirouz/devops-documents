@@ -4,6 +4,9 @@ Shell completion, useful aliases, and context management for day-to-day cluster 
 
 ---
 
+![kubectl talks to the API server](../images/kubectl.png)
+
+
 ## Shell completion
 
 Enable tab completion for `kubectl`:

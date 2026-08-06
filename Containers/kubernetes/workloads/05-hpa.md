@@ -13,6 +13,9 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 
 ---
 
+![Horizontal Pod Autoscaler scales replicas from metrics](../images/hpa.png)
+
+
 ## Commands
 
 ### Create an HPA

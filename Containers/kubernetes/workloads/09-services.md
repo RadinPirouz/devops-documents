@@ -8,6 +8,11 @@ Client → Service (stable IP/DNS) → Endpoints → Pods
 
 ---
 
+![Service routes traffic to matching Pods](../images/services-overview.png)
+
+![Service exposes Pods with a stable endpoint](../images/module-services.png)
+
+
 ## Service types
 
 | Type | Scope | Use case |

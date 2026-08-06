@@ -4,6 +4,9 @@ Ephemeral storage that lives as long as the Pod exists. Data is deleted when the
 
 ---
 
+![emptyDir shared ephemeral volume inside a Pod](../images/emptydir.png)
+
+
 ## How volumes work in Pods
 
 - Volumes are defined at the **Pod** level, not inside individual containers.

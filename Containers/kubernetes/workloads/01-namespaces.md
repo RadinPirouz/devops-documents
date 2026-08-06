@@ -4,6 +4,9 @@ Kubernetes **namespaces** allow you to organize and isolate resources within you
 
 ---
 
+![Namespaces isolate resources inside one cluster](../images/namespaces.png)
+
+
 ## 🧾 Listing Namespaces
 
 To list all namespaces:

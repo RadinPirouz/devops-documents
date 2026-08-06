@@ -6,10 +6,14 @@ Cluster setup, workloads, storage, and day-to-day operations with `kubectl`.
 
 ---
 
+![Kubernetes cluster components (control plane + nodes)](./images/architecture-components.png)
+
+
 ## Directory layout
 
 ```
 kubernetes/
+├── images/          Local diagrams used by the guides
 ├── setup/           Cluster bootstrap and kubectl configuration
 ├── workloads/       Pods, controllers, networking, config
 │   └── manifests/   Example YAML files

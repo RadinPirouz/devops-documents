@@ -10,6 +10,11 @@ Kubernetes follows a **control plane / worker node** architecture and is designe
 
 ---
 
+![Kubernetes architecture — control plane and worker node components](../images/architecture-components.png)
+
+![Detailed Kubernetes cluster architecture](../images/architecture.png)
+
+
 ## 2. Kubernetes Architecture
 
 A Kubernetes cluster consists of:

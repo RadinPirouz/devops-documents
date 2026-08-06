@@ -4,6 +4,9 @@ A **DaemonSet** ensures that a copy of a specific pod runs on **every (or some) 
 
 ---
 
+![DaemonSet runs one Pod on every Node](../images/daemonset.png)
+
+
 ## 📌 Key Characteristics
 
 - Automatically deploys one pod per worker node.

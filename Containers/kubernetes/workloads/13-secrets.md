@@ -4,6 +4,9 @@ Kubernetes **Secrets** are used to store and manage sensitive information such a
 
 ---
 
+![Secret mounts sensitive data into Pods](../images/secret.png)
+
+
 ## 📌 Types of Kubernetes Secrets
 
 | **Built-in Type**                     | **Usage**                               |

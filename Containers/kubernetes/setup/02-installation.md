@@ -6,6 +6,9 @@ Prerequisites: Ubuntu 22.04/24.04, root/sudo access, static IP on the control-pl
 
 ---
 
+![Kubernetes cluster with master and worker nodes](../images/module-cluster.png)
+
+
 ## 1. Disable swap
 
 Kubernetes requires swap to be off for reliable scheduling and memory accounting.

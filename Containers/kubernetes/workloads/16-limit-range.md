@@ -15,6 +15,9 @@ While a **ResourceQuota** enforces limits at the **namespace** level (total reso
 
 ---
 
+![LimitRange sets default and max resources per Pod](../images/limit-range.png)
+
+
 ### Why Use a LimitRange
 
 In a shared cluster, users might:

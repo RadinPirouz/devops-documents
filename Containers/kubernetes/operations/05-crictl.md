@@ -10,6 +10,9 @@ It provides node-level visibility and control over pods, containers, and images.
 
 ---
 
+![crictl inspects pods at the CRI runtime layer](../images/crictl-pods.png)
+
+
 ## Installation
 
 1. Navigate to the [cri-tools releases page](https://github.com/kubernetes-sigs/cri-tools/releases) to find the version compatible with your Kubernetes or CRI runtime.

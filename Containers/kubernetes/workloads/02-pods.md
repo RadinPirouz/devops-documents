@@ -4,6 +4,9 @@ A concise guide for managing Kubernetes Pods using `kubectl` and YAML manifests.
 
 ---
 
+![Pods run containers on cluster nodes](../images/module-pods.png)
+
+
 ## 📋 Listing Pods
 
 ### 🔹 Default Namespace

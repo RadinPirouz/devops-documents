@@ -8,6 +8,11 @@ PVC (request) → binds to → PV (actual storage) → mounted in Pod
 
 ---
 
+![Pod → PVC → PV → storage layers](../images/pv-pvc.png)
+
+![PVC bound via StorageClass](../images/pvc-storageclass.png)
+
+
 ## Storage layers
 
 | Layer | Role |

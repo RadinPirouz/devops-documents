@@ -6,6 +6,9 @@ See also: [02-debugging.md](./02-debugging.md) · [03-node-management.md](./03-n
 
 ---
 
+![kubectl command-line access to the API](../images/kubectl.png)
+
+
 ## API discovery
 
 ```bash

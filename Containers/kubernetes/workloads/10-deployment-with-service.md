@@ -11,6 +11,9 @@ kubectl get all -n ns
 
 ---
 
+![Deploy an application with Deployment and Service](../images/module-first-app.png)
+
+
 ## 1. Namespace
 
 ```yaml

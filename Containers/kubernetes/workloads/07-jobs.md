@@ -6,6 +6,9 @@ Use Jobs for **batch processing**, **one-off tasks**, or **short-lived workloads
 
 ---
 
+![Job runs Pods until completion](../images/job.png)
+
+
 ## 🔍 Job Commands
 
 ### 📄 List Jobs in a Namespace

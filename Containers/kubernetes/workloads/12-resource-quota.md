@@ -4,6 +4,9 @@ A **ResourceQuota** limits total resource consumption and object counts within a
 
 ---
 
+![ResourceQuota limits namespace resource usage](../images/resource-quota.png)
+
+
 ## Commands
 
 ```bash

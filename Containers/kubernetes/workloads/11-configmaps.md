@@ -4,6 +4,9 @@ Manage configuration without hardcoding! `ConfigMaps` let you store external con
 
 ---
 
+![ConfigMap injects configuration into Pods](../images/configmap.png)
+
+
 ## 📘 What is a ConfigMap?
 
 A **ConfigMap** is a Kubernetes object used to store **non-confidential configuration data** in **key-value** format. You can:

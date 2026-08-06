@@ -4,6 +4,9 @@ Commands for listing nodes and performing maintenance (cordon, drain, uncordon).
 
 ---
 
+![kubectl drain evicts Pods before node maintenance](../images/kubectl-drain.png)
+
+
 ## 📋 Listing Nodes
 
 ### 🔹 Show All Nodes

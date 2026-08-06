@@ -10,6 +10,11 @@ Internet → Ingress Controller → Ingress rules → Service → Pods
 
 ---
 
+![Ingress routes HTTP(S) traffic to Services](../images/ingress.png)
+
+![Ingress fan-out routing to multiple Services](../images/ingress-fanout.png)
+
+
 ## Prerequisites
 
 1. A running Ingress controller in the cluster.

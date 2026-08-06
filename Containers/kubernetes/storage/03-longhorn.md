@@ -4,6 +4,9 @@ This guide walks you through installing **Longhorn**, a cloud-native distributed
 
 ---
 
+![Longhorn distributed block storage replicas](../images/longhorn.png)
+
+
 ## 🚀 Prerequisites
 
 * A Kubernetes cluster (v1.21 or newer recommended)
