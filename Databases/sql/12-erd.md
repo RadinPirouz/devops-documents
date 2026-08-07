@@ -2,7 +2,7 @@
 
 Visual map of entities, attributes, and relationships — drawn before (or while) you design tables and keys.
 
-[← DEFAULT & CHECK](./11-check.md) · [SQL index](./README.md)
+[← DEFAULT & CHECK](./11-check.md) · [SQL index](./README.md) · [Next: Transactions →](./13-transaction.md)
 
 > For how 1:1 / 1:N / M:N become foreign keys in SQL, see [Keys & Relations](./06-keys-relations.md).
 

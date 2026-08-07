@@ -22,6 +22,8 @@ Practical SQL reference — databases, tables, queries, relations, joins, and no
 | 10 | [Combining Queries](./10-combining-query.md) | `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT` |
 | 11 | [DEFAULT & CHECK](./11-check.md) | `DEFAULT`, column / table `CHECK`, named constraints |
 | 12 | [ERD](./12-erd.md) | Entities, relationships, attributes, cardinality, Chen / Crow’s Foot |
+| 13 | [Transactions](./13-transaction.md) | `START TRANSACTION` / `BEGIN`, `COMMIT`, `ROLLBACK`, ACID, states, `SAVEPOINT` |
+| 14 | [Indexes](./14-index.md) | `CREATE` / `DROP INDEX`, unique & composite indexes, when to use, `EXPLAIN` |
 
 ## Notes
 
