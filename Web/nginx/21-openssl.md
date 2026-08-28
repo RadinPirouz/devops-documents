@@ -1,10 +1,8 @@
-# OpenSSL Command Reference for Self-Signed Certificate Generation
+# 21 — OpenSSL (Self-Signed Certificates)
 
-This document explains the OpenSSL command-line tool and provides a structured, DevOps-friendly guide for generating self-signed SSL/TLS certificates. These certificates are commonly used for internal services, development environments, testing, or private infrastructure components such as Gitea, Jenkins, internal APIs, or Kubernetes ingress controllers.
+> Part of [Nginx Documentation](README.md). For production HTTPS use [18-SSL](18-SSL.md) with Let's Encrypt.
 
----
-
-## 1. What is OpenSSL?
+## What is OpenSSL?
 
 **OpenSSL** is a widely used, open-source cryptographic toolkit that implements the SSL and TLS protocols. It provides utilities for:
 

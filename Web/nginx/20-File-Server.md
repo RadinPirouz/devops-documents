@@ -1,6 +1,10 @@
-### 📄 **NGINX File Server Configuration**
+# 20 — File Server
 
-This configuration sets up an NGINX server to serve files from two different directories:
+> Part of [Nginx Documentation](README.md). See [03-Location](03-Location.md) for `root` vs `alias`.
+
+## Configuration
+
+Serve files from two directories:
 
 * `/srv/files` for general file browsing at the root path (`/`)
 * `/srv/images` for image browsing at `/image`

@@ -1,4 +1,7 @@
-# Nginx Reverse Proxy Configuration
+# Nginx Example Configuration
+
+> Part of [Nginx Documentation](README.md). Covers [07-Reverse-Proxy](07-Reverse-Proxy.md) and static file serving.
+
 ## Overview
 
 This Nginx configuration serves two main purposes:

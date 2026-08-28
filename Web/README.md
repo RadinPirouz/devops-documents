@@ -15,9 +15,8 @@ Web servers, TLS, reverse proxies, load balancing, and self-hosted web apps.
 
 ## Nginx learning path
 
-Follow the numbered guides in order:
+Start with the [Nginx index](./nginx/README.md). Course lessons (video series):
 
-1. [01-Information.md](./nginx/01-Information.md)
-2. [02-Installtion.md](./nginx/02-Installtion.md)
-3. [03-Setup-Web-Server.md](./nginx/03-Setup-Web-Server.md)
-4. Continue through `13-openssl.md` for advanced topics
+1. [00-Intro.md](./nginx/00-Intro.md) → [17-Events.md](./nginx/17-Events.md)
+
+Supplementary: [18-SSL](./nginx/18-SSL.md) · [19-WebSocket](./nginx/19-WebSocket.md) · [20-File-Server](./nginx/20-File-Server.md) · [21-openssl](./nginx/21-openssl.md) · [Example-Config](./nginx/Example-Config.md)

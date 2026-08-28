@@ -1,6 +1,8 @@
-# 🔐 Nginx SSL Configuration Guide
+# 18 — SSL / HTTPS
 
-## 📄 Example Server Block (HTTPS)
+> Part of [Nginx Documentation](README.md). See also [10-Auth-Basic](10-Auth-Basic.md) for password-protected HTTPS sites.
+
+## Example Server Block (HTTPS)
 
 ```nginx
 listen 443 ssl;

@@ -1,6 +1,8 @@
-# WebSocket and Nginx Reverse Proxy Configuration Guide
+# 19 — WebSocket
 
-## 1. Introduction
+> Part of [Nginx Documentation](README.md). Builds on [07-Reverse-Proxy](07-Reverse-Proxy.md).
+
+## Introduction
 
 **WebSocket** is a **bi-directional, full-duplex communication protocol** that operates over a **single TCP connection**. Unlike traditional HTTP, where the client sends a request and the server responds, WebSocket allows both client and server to send messages to each other at any time during the session.
 
