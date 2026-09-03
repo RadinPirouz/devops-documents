@@ -62,6 +62,43 @@ server {
 
 ---
 
+## Limit HTTP methods (`limit_except`)
+
+`limit_except` applies nested directives to all methods **except** those listed. Common pattern: allow only safe read methods.
+
+```nginx
+location / {
+    limit_except GET HEAD {
+        deny all;
+    }
+}
+```
+
+- `GET` and `HEAD` → allowed for everyone
+- `POST`, `PUT`, `DELETE`, etc. → `deny all` → 403
+
+Allow write methods only from trusted IPs:
+
+```nginx
+location /api/ {
+    limit_except GET HEAD {
+        allow 10.0.0.0/8;
+        deny all;
+    }
+
+    proxy_pass http://127.0.0.1:8080;
+}
+```
+
+| Method list | Nested block applies to |
+| ----------- | ----------------------- |
+| `GET HEAD` | Everything except GET/HEAD |
+| `GET` | Everything except GET |
+
+Context: `location` only. Directives commonly used inside: `allow`, `deny`, `auth_basic`.
+
+---
+
 ## Combine with auth (`satisfy`)
 
 **Both IP and password required:**
@@ -129,4 +166,5 @@ Then `allow`/`deny` evaluate the actual client IP.
 
 - `allow` / `deny` rules are processed top to bottom; first match wins
 - End with `deny all` when whitelisting
+- Use `limit_except` to restrict which HTTP methods reach a location
 - Use `satisfy` to combine IP rules with Basic Auth
