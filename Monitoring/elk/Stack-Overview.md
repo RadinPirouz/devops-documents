@@ -1,5 +1,7 @@
 # ELK Stack Overview (DevOps Notes)
 
+Supplementary notes for the wider stack. Course lessons start at [00-Intro.md](./00-Intro.md) — see [README.md](./README.md).
+
 ## What is ELK?
 
 **ELK** stands for:

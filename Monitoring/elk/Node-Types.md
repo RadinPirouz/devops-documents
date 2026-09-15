@@ -1,4 +1,7 @@
-# ELK Node Types 
+# ELK Node Types
+
+Supplementary detail for [01-Architecture.md](./01-Architecture.md). Full course index: [README.md](./README.md).
+
 ## Overview
 
 The ELK Stack (Elasticsearch, Logstash, Kibana) is commonly deployed using multiple node types (roles) to ensure scalability, performance, and resilience. This document outlines the main node types used in production-grade ELK deployments from a DevOps perspective.
